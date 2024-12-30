@@ -1,6 +1,6 @@
 part of 'categories_bloc.dart';
 
-sealed class CategoriesState extends Equatable {
+abstract class CategoriesState extends Equatable {
   const CategoriesState();
   
   @override
@@ -8,3 +8,10 @@ sealed class CategoriesState extends Equatable {
 }
 
 final class CategoriesInitial extends CategoriesState {}
+
+final class CategoriesLoadingState extends CategoriesState {}
+
+final class CategoriesLoadedState extends CategoriesState {
+}
+
+final class CategoriesError extends CategoriesState {}
