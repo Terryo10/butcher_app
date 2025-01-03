@@ -4,19 +4,20 @@ import 'package:json_annotation/json_annotation.dart';
 part 'categories_response_model.g.dart';
 
 @JsonSerializable()
-class CategoriesModel {
+class CategoriesResponseModel {
   bool? success;
   String? message;
+  @JsonKey(name: 'Categories')
   Categories? categories;
 
-  CategoriesModel({
+  CategoriesResponseModel({
     this.success,
     this.message,
     this.categories,
   });
 
-  factory CategoriesModel.fromJson(Map<String, dynamic> json) =>
-      _$CategoriesModelFromJson(json);
+  factory CategoriesResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$CategoriesResponseModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CategoriesModelToJson(this);
+  Map<String, dynamic> toJson() => _$CategoriesResponseModelToJson(this);
 }

@@ -1,16 +1,13 @@
 import 'package:butcher_app/repositories/products_repository/products_provider.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../../models/categories/categories_response_model.dart';
 
 class ProductsRepository {
-  final FlutterSecureStorage storage;
   final ProductsProvider provider;
 
-  ProductsRepository({
-    required this.storage,
-    required this.provider
-  });
+  ProductsRepository({required this.provider});
 
-  Future getCategories()async {
-
+  Future<CategoriesResponseModel> getCategories() async {
+    return CategoriesResponseModel.fromJson(await provider.getCategories());
   }
 }
