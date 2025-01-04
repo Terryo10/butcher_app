@@ -22,65 +22,58 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            const CategorySlider(),
-            SafeArea(
-              child: CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    leading: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Navigator.pushNamed(context, AppRoutes.drawerPage);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFF2F6F3),
-                          shape: const CircleBorder(),
-                        ),
-                        child: SvgPicture.asset(AppIcons.sidebarIcon),
-                      ),
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Navigator.pushNamed(context, AppRoutes.drawerPage);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFF2F6F3),
+                      shape: const CircleBorder(),
                     ),
-                    floating: true,
-                    title: SvgPicture.asset(
-                      "assets/images/app_logo.svg",
-                      height: 32,
-                    ),
-                    actions: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(right: 8, top: 4, bottom: 4),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Navigator.pushNamed(context, AppRoutes.search);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFF2F6F3),
-                            shape: const CircleBorder(),
-                          ),
-                          child: SvgPicture.asset(AppIcons.search),
-                        ),
+                    child: SvgPicture.asset(AppIcons.sidebarIcon),
+                  ),
+                ),
+                floating: true,
+                title: SvgPicture.asset(
+                  "assets/images/app_logo.svg",
+                  height: 32,
+                ),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8, top: 4, bottom: 4),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Navigator.pushNamed(context, AppRoutes.search);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFF2F6F3),
+                        shape: const CircleBorder(),
                       ),
-                    ],
-                  ),
-                  const SliverToBoxAdapter(
-                    child: AdSpace(),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: PopularPacks(),
-                  ),
-                  const SliverPadding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: AppDefaults.padding),
-                    sliver: SliverToBoxAdapter(
-                      child: OurNewItem(),
+                      child: SvgPicture.asset(AppIcons.search),
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+              const SliverToBoxAdapter(
+                child: AdSpace(),
+              ),
+              const SliverToBoxAdapter(
+                child: PopularPacks(),
+              ),
+              const SliverPadding(
+                padding: EdgeInsets.symmetric(vertical: AppDefaults.padding),
+                sliver: SliverToBoxAdapter(
+                  child: OurNewItem(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
