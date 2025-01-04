@@ -17,7 +17,10 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: const Scaffold(
         body: Column(
-          children: [CategorySlider()],
+          children: [
+            CategorySlider(),
+            Text('shdusdh'),
+          ],
         ),
       ),
     );
