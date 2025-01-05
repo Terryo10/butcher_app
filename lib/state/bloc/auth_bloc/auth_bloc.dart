@@ -15,13 +15,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // TODO: implement event handler
     });
     on<FirstAppLaunchEvent>((event, emit) async {
-      dynamic isFirstTime = await storage.read(key: 'isOpenedApp') ?? 'true';
-      if (isFirstTime == 'true') {
+      dynamic isFirstTime = await storage.read(key: 'isOpenedApp');
+      if (isFirstTime != 'false') {
         storage.write(key: 'isOpenedApp', value: true.toString());
-        emit(const AuthFirstLaunch(isFirstLaunch: true));
-      } else {
-        storage.write(key: 'isOpenedApp', value: false.toString());
         emit(const AuthFirstLaunch(isFirstLaunch: false));
+      } else {
+        emit(const AuthFirstLaunch(isFirstLaunch: true));
       }
     });
   }

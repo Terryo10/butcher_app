@@ -40,7 +40,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   _gotoLoginSignUp() {
-    context.navigateTo(const LoginRoute());
+    context.navigateTo(const HomeRoute());
   }
 
   @override
