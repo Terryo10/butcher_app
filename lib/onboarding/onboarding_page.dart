@@ -40,7 +40,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   _gotoLoginSignUp() {
-    Navigator.of(context).pop();
     context.navigateTo(const LoginRoute());
   }
 

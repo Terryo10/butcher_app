@@ -8,12 +8,13 @@ import 'state/app_repositories.dart';
 void main() {
   final appRouter = AppRouter();
   const FlutterSecureStorage storage = FlutterSecureStorage();
-  //firebase for notifications 
+  //firebase for notifications
 
   // Configure app
   var appConfig = AppRepositories(
     storage: storage,
     appBlocs: AppBlocs(
+      storage: storage,
       app: MyApp(
         appRouter: appRouter,
       ),
@@ -44,5 +45,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-
