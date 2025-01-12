@@ -100,14 +100,14 @@ class _AppLogoAndHeadline extends StatelessWidget {
           ),
         ),
         Text(
-          'Welcome to our',
+          'Welcome to',
           style: Theme.of(context)
               .textTheme
               .headlineSmall
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
         Text(
-          'E-Grocery',
+          'Vintage Meats',
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.primary,

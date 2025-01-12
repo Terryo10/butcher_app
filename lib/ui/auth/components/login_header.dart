@@ -22,14 +22,14 @@ class LoginPageHeader extends StatelessWidget {
           ),
         ),
         Text(
-          'Welcome to our',
+          'Welcome to',
           style: Theme.of(context)
               .textTheme
               .titleLarge
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
         Text(
-          'E-Grocery',
+          'Vintage Meats',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.primary,

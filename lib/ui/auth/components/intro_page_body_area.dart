@@ -25,12 +25,12 @@ class IntroPageBodyArea extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Welcome to our',
+                    'Welcome to',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold, color: Colors.black),
                   ),
                   Text(
-                    'E-Grocery',
+                    'Vintage Meats',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.w700, color: AppColors.primary),
                   ),
@@ -47,7 +47,7 @@ class IntroPageBodyArea extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () =>
-                         context.navigateTo(const LoginOrSignUpRoute()),
+                         context.navigateTo(const LoginRoute()),
                     child: const Text('Continue with Email or Phone'),
                   ),
                 ),
