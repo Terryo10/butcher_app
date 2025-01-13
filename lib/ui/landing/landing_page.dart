@@ -22,7 +22,11 @@ class _LandingPageState extends State<LandingPage> {
         if (state is CacheFoundState) {
           return const AuthenticatedApp();
         } else if (state is CacheNotFoundState) {
-          return const OnboardingPage();
+          if (state.isAppFirstLaunch) {
+            return const OnboardingPage();
+          } else {
+            return const HomePage();
+          }
         } else if (state is CacheErrorState) {
           return const SizedBox();
         } else {

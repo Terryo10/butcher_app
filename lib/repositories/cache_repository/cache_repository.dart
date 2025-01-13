@@ -8,4 +8,9 @@ class CacheRepository {
   Future<bool> hasAuthenticationToken() async {
     return await storage.read(key: 'token') != null;
   }
+
+  Future<bool> firstAppLaunch() async {
+    storage.write(key: 'isLaunchedApp', value: true.toString());
+    return await storage.read(key: 'isLaunchedApp') != null;
+  }
 }

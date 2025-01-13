@@ -14,16 +14,18 @@ class CacheBloc extends Bloc<CacheEvent, CacheState> {
   CacheBloc({
     required this.cacheRepository,
     required this.authBloc,
-
   }) : super(CacheInitialState()) {
-
     on<AppStarted>((event, emit) async {
       emit(CacheLoadingState());
       try {
         if (await cacheRepository.hasAuthenticationToken()) {
           authBloc.add(AuthenticateFromCache());
         } else {
-          emit(CacheNotFoundState());
+          if (await cacheRepository.firstAppLaunch()) {
+            emit(const CacheNotFoundState(isAppFirstLaunch: false));
+          } else {
+            emit(const CacheNotFoundState(isAppFirstLaunch: true));
+          }
         }
       } catch (e) {
         emit(
