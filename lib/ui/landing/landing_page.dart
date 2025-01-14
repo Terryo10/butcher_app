@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../onboarding/onboarding_page.dart';
 import '../../state/bloc/cache_bloc/cache_bloc.dart';
+import '../auth/login_page.dart';
 
 @RoutePage()
 class LandingPage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _LandingPageState extends State<LandingPage> {
           if (state.isAppFirstLaunch) {
             return const OnboardingPage();
           } else {
-            return const HomePage();
+            return const LoginPage();
           }
         } else if (state is CacheErrorState) {
           return const SizedBox();
