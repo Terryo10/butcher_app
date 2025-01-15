@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
 import '../../models/categories/categories_response_model_test.dart';
+import '../../static/app_urls.dart';
 import 'network_image.dart';
 
 class BundleTileSquare extends StatelessWidget {
@@ -37,9 +38,14 @@ class BundleTileSquare extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: AspectRatio(
                   aspectRatio: 1 / 1,
-                  child: NetworkImageWithLoader(
-                    data.image ?? '',
-                    fit: BoxFit.contain,
+                  child: InkWell(
+                    onTap: () {
+                      print(AppUrls.getProductImage(data.image ?? ''));
+                    },
+                    child: NetworkImageWithLoader(
+                      AppUrls.getProductImage(data.image ?? ''),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
