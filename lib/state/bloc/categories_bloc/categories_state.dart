@@ -20,6 +20,22 @@ final class CategoriesLoadedState extends CategoriesState {
   });
 }
 
+final class SubCategoriesLoadedState extends CategoriesState {
+  final Datum selectedSubCategories;
+
+  const SubCategoriesLoadedState({
+    required this.selectedSubCategories,
+  });
+}
+
+final class ProductsLoadedState extends CategoriesState {
+  final Subcategory selectedProducts;
+
+  const ProductsLoadedState({
+    required this.selectedProducts,
+  });
+}
+
 final class CategoriesErrorState extends CategoriesState {
   final String message;
 
