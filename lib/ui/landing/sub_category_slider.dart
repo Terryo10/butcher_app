@@ -14,7 +14,7 @@ class SubCategorySlider extends StatefulWidget {
 }
 
 class _SubCategorySliderState extends State<SubCategorySlider> {
-  int activeMenu = -1;
+  int activeMenu = 0;
   bool isSearching = false;
   @override
   Widget build(BuildContext context) {

@@ -13,7 +13,7 @@ class CategorySlider extends StatefulWidget {
 }
 
 class _CategorySliderState extends State<CategorySlider> {
-  int activeMenu = -1;
+  int activeMenu = 0;
   bool isSearching = false;
   @override
   Widget build(BuildContext context) {
