@@ -13,15 +13,19 @@ final class CategoriesLoadingState extends CategoriesState {}
 
 final class CategoriesLoadedState extends CategoriesState {
   final CategoriesResponse categoriesResponseModel;
+  final List<Subcategory>? selectedSubCategories;
+  final Subcategory? selectedProducts;
+
   //  List<CategoryDatum> get categories => categoriesResponseModel?.categories?.categories?.data ?? [];
 
-  const CategoriesLoadedState({
-    required this.categoriesResponseModel,
-  });
+  const CategoriesLoadedState(
+      {required this.categoriesResponseModel,
+      this.selectedSubCategories,
+      this.selectedProducts});
 }
 
 final class SubCategoriesLoadedState extends CategoriesState {
-  final Datum selectedSubCategories;
+  final List<Subcategory>? selectedSubCategories;
 
   const SubCategoriesLoadedState({
     required this.selectedSubCategories,
@@ -29,7 +33,7 @@ final class SubCategoriesLoadedState extends CategoriesState {
 }
 
 final class ProductsLoadedState extends CategoriesState {
-  final Subcategory selectedProducts;
+  final Subcategory? selectedProducts;
 
   const ProductsLoadedState({
     required this.selectedProducts,

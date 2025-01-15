@@ -24,7 +24,7 @@ class _SubCategorySliderState extends State<SubCategorySlider> {
           return const SliverToBoxAdapter(
             child: SizedBox(),
           );
-        } else if (state is CategoriesLoadedState) {
+        } else if (state is SubCategoriesLoadedState) {
           return SliverPadding(
             padding: const EdgeInsets.symmetric(vertical: AppDefaults.padding),
             sliver: SliverToBoxAdapter(
@@ -35,9 +35,7 @@ class _SubCategorySliderState extends State<SubCategorySlider> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                        state.categoriesResponseModel.categories?.categories
-                                ?.data?.length ??
-                            0, (index) {
+                        state.selectedSubCategories?.length ?? 0, (index) {
                       return InkWell(
                         onTap: () {
                           setState(() {
@@ -63,8 +61,7 @@ class _SubCategorySliderState extends State<SubCategorySlider> {
                               child: Row(
                                 children: [
                                   Text(
-                                    state.categoriesResponseModel.categories
-                                            ?.categories?.data?[index].name ??
+                                    state.selectedSubCategories?[index].name ??
                                         '',
                                     style: activeMenu == index
                                         ? appStyleText

@@ -37,6 +37,12 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
               selectedSubCategories: event.selectedSubCategories,
             ),
           );
+          emit(
+            CategoriesLoadedState(
+                categoriesResponseModel:
+                    await productsRepository.getCategories(),
+                selectedSubCategories: event.selectedSubCategories),
+          );
         } catch (e) {
           emit(
             CategoriesErrorState(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
-import '../../models/dummy_bundle_model.dart';
+import '../../models/categories/categories_response_model_test.dart';
 import 'network_image.dart';
 
 class BundleTileSquare extends StatelessWidget {
@@ -10,7 +10,7 @@ class BundleTileSquare extends StatelessWidget {
     required this.data,
   });
 
-  final BundleModel data;
+  final Product data;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class BundleTileSquare extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 1 / 1,
                   child: NetworkImageWithLoader(
-                    data.cover,
+                    data.image ?? '',
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -48,7 +48,7 @@ class BundleTileSquare extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    data.name,
+                    data.name ?? '',
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge
@@ -57,7 +57,7 @@ class BundleTileSquare extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    data.itemNames.join(','),
+                    data.name ?? '',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -67,7 +67,7 @@ class BundleTileSquare extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '\$${data.price.toInt()}',
+                    '\$${data.price}',
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge
@@ -75,7 +75,7 @@ class BundleTileSquare extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    '\$${data.mainPrice}',
+                    '\$${data.price}',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           decoration: TextDecoration.lineThrough,
                         ),

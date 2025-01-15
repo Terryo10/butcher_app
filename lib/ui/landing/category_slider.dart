@@ -40,6 +40,14 @@ class _CategorySliderState extends State<CategorySlider> {
                             0, (index) {
                       return InkWell(
                         onTap: () {
+                          BlocProvider.of<CategoriesBloc>(context).add(
+                              GetSelectedSubCategory(
+                                  selectedSubCategories: state
+                                      .categoriesResponseModel
+                                      .categories
+                                      ?.categories
+                                      ?.data?[index]
+                                      .subcategories));
                           setState(() {
                             activeMenu = index;
                           });

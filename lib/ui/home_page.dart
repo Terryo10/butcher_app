@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:butcher_app/ui/landing/sub_category_slider.dart';
 
 import 'package:flutter/material.dart';
 
@@ -6,8 +7,6 @@ import 'package:flutter_svg/svg.dart';
 
 import '../constants/app_defaults.dart';
 import '../constants/app_icons.dart';
-import '../json/json_app.dart';
-import '../themes/styles.dart';
 import 'landing/category_slider.dart';
 import 'landing/components/ad_space.dart';
 import 'landing/components/our_new_item.dart';
@@ -64,6 +63,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           const CategorySlider(),
+          const SubCategorySlider(),
           const SliverToBoxAdapter(
             child: AdSpace(),
           ),
