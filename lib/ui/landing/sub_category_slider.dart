@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants/app_defaults.dart';
+import '../../models/categories/categories_response_model_test.dart';
 import '../../themes/styles.dart';
 
 class SubCategorySlider extends StatefulWidget {
@@ -13,7 +14,7 @@ class SubCategorySlider extends StatefulWidget {
 }
 
 class _SubCategorySliderState extends State<SubCategorySlider> {
-  int activeMenu = 0;
+  int activeMenu = -1;
   bool isSearching = false;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class _SubCategorySliderState extends State<SubCategorySlider> {
           return const SliverToBoxAdapter(
             child: SizedBox(),
           );
-        } else if (state is SubCategoriesLoadedState) {
+        } else if (state is CategoriesLoadedState) {
           return SliverPadding(
             padding: const EdgeInsets.symmetric(vertical: AppDefaults.padding),
             sliver: SliverToBoxAdapter(
@@ -38,6 +39,11 @@ class _SubCategorySliderState extends State<SubCategorySlider> {
                         state.selectedSubCategories?.length ?? 0, (index) {
                       return InkWell(
                         onTap: () {
+                          BlocProvider.of<CategoriesBloc>(context).add(
+                              GetSelectedProducts(
+                                  selectedProducts:
+                                      state.selectedSubCategories?[index] ??
+                                          Subcategory()));
                           setState(() {
                             activeMenu = index;
                           });

@@ -10,7 +10,7 @@ abstract class CategoriesEvent extends Equatable {
 class GetCategories extends CategoriesEvent {}
 
 class GetSelectedSubCategory extends CategoriesEvent {
-  final List<Subcategory>? selectedSubCategories;
+  final List<Subcategory> selectedSubCategories;
 
   const GetSelectedSubCategory({required this.selectedSubCategories});
 }

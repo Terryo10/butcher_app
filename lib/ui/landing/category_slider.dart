@@ -13,7 +13,7 @@ class CategorySlider extends StatefulWidget {
 }
 
 class _CategorySliderState extends State<CategorySlider> {
-  int activeMenu = 0;
+  int activeMenu = -1;
   bool isSearching = false;
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _CategorySliderState extends State<CategorySlider> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                        state.categoriesResponseModel.categories?.categories
+                        state.categoriesResponseModel?.categories?.categories
                                 ?.data?.length ??
                             0, (index) {
                       return InkWell(
@@ -43,11 +43,12 @@ class _CategorySliderState extends State<CategorySlider> {
                           BlocProvider.of<CategoriesBloc>(context).add(
                               GetSelectedSubCategory(
                                   selectedSubCategories: state
-                                      .categoriesResponseModel
-                                      .categories
-                                      ?.categories
-                                      ?.data?[index]
-                                      .subcategories));
+                                          .categoriesResponseModel
+                                          ?.categories
+                                          ?.categories
+                                          ?.data?[index]
+                                          .subcategories ??
+                                      []));
                           setState(() {
                             activeMenu = index;
                           });
@@ -71,7 +72,7 @@ class _CategorySliderState extends State<CategorySlider> {
                               child: Row(
                                 children: [
                                   Text(
-                                    state.categoriesResponseModel.categories
+                                    state.categoriesResponseModel?.categories
                                             ?.categories?.data?[index].name ??
                                         '',
                                     style: activeMenu == index

@@ -1,47 +1,75 @@
 part of 'categories_bloc.dart';
 
 abstract class CategoriesState extends Equatable {
-  const CategoriesState();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class CategoriesInitial extends CategoriesState {}
-
-final class CategoriesLoadingState extends CategoriesState {}
-
-final class CategoriesLoadedState extends CategoriesState {
-  final CategoriesResponse categoriesResponseModel;
+  final CategoriesResponse? categoriesResponseModel;
   final List<Subcategory>? selectedSubCategories;
   final Subcategory? selectedProducts;
 
-  //  List<CategoryDatum> get categories => categoriesResponseModel?.categories?.categories?.data ?? [];
+  const CategoriesState({
+    this.categoriesResponseModel,
+    this.selectedSubCategories,
+    this.selectedProducts,
+  });
 
-  const CategoriesLoadedState(
-      {required this.categoriesResponseModel,
-      this.selectedSubCategories,
-      this.selectedProducts});
+  @override
+  List<Object?> get props => [
+        categoriesResponseModel,
+        selectedSubCategories,
+        selectedProducts,
+      ];
+}
+
+final class CategoriesInitial extends CategoriesState {
+  const CategoriesInitial()
+      : super(
+          categoriesResponseModel: null,
+          selectedSubCategories: null,
+          selectedProducts: null,
+        );
+}
+
+final class CategoriesLoadingState extends CategoriesState {
+  const CategoriesLoadingState({
+    super.categoriesResponseModel,
+    super.selectedSubCategories,
+    super.selectedProducts,
+  });
+}
+
+final class CategoriesLoadedState extends CategoriesState {
+  const CategoriesLoadedState({
+    required CategoriesResponse? super.categoriesResponseModel,
+    super.selectedSubCategories,
+    super.selectedProducts,
+  });
 }
 
 final class SubCategoriesLoadedState extends CategoriesState {
-  final List<Subcategory>? selectedSubCategories;
-
   const SubCategoriesLoadedState({
-    required this.selectedSubCategories,
+    required List<Subcategory> super.selectedSubCategories,
+    super.categoriesResponseModel,
+    super.selectedProducts,
   });
 }
 
 final class ProductsLoadedState extends CategoriesState {
-  final Subcategory? selectedProducts;
-
   const ProductsLoadedState({
-    required this.selectedProducts,
+    required Subcategory super.selectedProducts,
+    super.categoriesResponseModel,
+    super.selectedSubCategories,
   });
 }
 
 final class CategoriesErrorState extends CategoriesState {
   final String message;
 
-  const CategoriesErrorState({required this.message});
+  const CategoriesErrorState({
+    required this.message,
+    super.categoriesResponseModel,
+    super.selectedSubCategories,
+    super.selectedProducts,
+  });
+
+  @override
+  List<Object?> get props => super.props..add(message);
 }

@@ -29,7 +29,7 @@ class PopularPacks extends StatelessWidget {
           },
           child: BlocBuilder<CategoriesBloc, CategoriesState>(
             builder: (context, state) {
-              if (state is ProductsLoadedState) {
+              if (state is CategoriesLoadedState) {
                 return SingleChildScrollView(
                   padding: const EdgeInsets.only(left: AppDefaults.padding),
                   scrollDirection: Axis.horizontal,

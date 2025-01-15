@@ -9,65 +9,50 @@ part 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final ProductsRepository productsRepository;
+
   CategoriesBloc({required this.productsRepository})
-      : super(CategoriesInitial()) {
-    on<GetCategories>(
-      (event, emit) async {
-        emit(CategoriesLoadingState());
-        try {
-          emit(
-            CategoriesLoadedState(
-              categoriesResponseModel: await productsRepository.getCategories(),
-            ),
-          );
-        } catch (e) {
-          emit(
-            CategoriesErrorState(
-              message: e.toString(),
-            ),
-          );
-        }
-      },
-    );
-    on<GetSelectedSubCategory>(
-      (event, emit) async {
-        try {
-          emit(
-            SubCategoriesLoadedState(
-              selectedSubCategories: event.selectedSubCategories,
-            ),
-          );
-          emit(
-            CategoriesLoadedState(
-                categoriesResponseModel:
-                    await productsRepository.getCategories(),
-                selectedSubCategories: event.selectedSubCategories),
-          );
-        } catch (e) {
-          emit(
-            CategoriesErrorState(
-              message: e.toString(),
-            ),
-          );
-        }
-      },
-    );
-    on<GetSelectedProducts>(
-      (event, emit) async {
-        try {
-          emit(
-            ProductsLoadedState(
-              selectedProducts: event.selectedProducts,
-            ),
-          );
-        } catch (e) {
-          emit(
-            CategoriesErrorState(
-              message: e.toString(),
-            ),
-          );
-        }
-      },
-    );
+      : super(const CategoriesInitial()) {
+    on<GetCategories>((event, emit) async {
+      // Retain current state data while loading categories
+      emit(CategoriesLoadingState(
+        categoriesResponseModel: state.categoriesResponseModel,
+        selectedSubCategories: state.selectedSubCategories,
+        selectedProducts: state.selectedProducts,
+      ));
+
+      try {
+        final categories = await productsRepository.getCategories();
+        emit(CategoriesLoadedState(
+          categoriesResponseModel: categories,
+          selectedSubCategories: state.selectedSubCategories,
+          selectedProducts: state.selectedProducts,
+        ));
+      } catch (e) {
+        emit(CategoriesErrorState(
+          message: e.toString(),
+          categoriesResponseModel: state.categoriesResponseModel,
+          selectedSubCategories: state.selectedSubCategories,
+          selectedProducts: state.selectedProducts,
+        ));
+      }
+    });
+
+    on<GetSelectedSubCategory>((event, emit) {
+      // Update selected subcategories while retaining other data
+      emit(CategoriesLoadedState(
+        selectedSubCategories: event.selectedSubCategories,
+        categoriesResponseModel: state.categoriesResponseModel,
+        selectedProducts: state.selectedProducts,
+      ));
+    });
+
+    on<GetSelectedProducts>((event, emit) {
+      // Update selected products while retaining other data
+      emit(CategoriesLoadedState(
+        selectedProducts: event.selectedProducts,
+        categoriesResponseModel: state.categoriesResponseModel,
+        selectedSubCategories: state.selectedSubCategories,
+      ));
+    });
   }
 }
