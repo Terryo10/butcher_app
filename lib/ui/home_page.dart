@@ -63,10 +63,10 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           const CategorySlider(),
-          const SubCategorySlider(),
           const SliverToBoxAdapter(
             child: AdSpace(),
           ),
+          const SubCategorySlider(),
           const SliverToBoxAdapter(
             child: PopularPacks(),
           ),
