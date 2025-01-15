@@ -12,13 +12,12 @@ final class CategoriesInitial extends CategoriesState {}
 final class CategoriesLoadingState extends CategoriesState {}
 
 final class CategoriesLoadedState extends CategoriesState {
-  final CategoriesResponseModel categoriesResponseModel;
-   List<CategoryDatum> get categories => categoriesResponseModel.categories?.categories?.data ?? [];
+  final CategoriesResponse categoriesResponseModel;
+  //  List<CategoryDatum> get categories => categoriesResponseModel?.categories?.categories?.data ?? [];
 
   const CategoriesLoadedState({
     required this.categoriesResponseModel,
   });
-
 }
 
 final class CategoriesErrorState extends CategoriesState {

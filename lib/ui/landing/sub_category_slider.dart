@@ -34,7 +34,10 @@ class _SubCategorySliderState extends State<SubCategorySlider> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(state.categories.length, (index) {
+                    children: List.generate(
+                        state.categoriesResponseModel.categories?.categories
+                                ?.data?.length ??
+                            0, (index) {
                       return InkWell(
                         onTap: () {
                           setState(() {
@@ -60,7 +63,9 @@ class _SubCategorySliderState extends State<SubCategorySlider> {
                               child: Row(
                                 children: [
                                   Text(
-                                    state.categories[index].name.toString(),
+                                    state.categoriesResponseModel.categories
+                                            ?.categories?.data?[index].name ??
+                                        '',
                                     style: activeMenu == index
                                         ? appStyleText
                                         : appStyleTextActive,
