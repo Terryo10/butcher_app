@@ -6,6 +6,9 @@ import 'package:flutter_svg/svg.dart';
 
 import '../constants/app_defaults.dart';
 import '../constants/app_icons.dart';
+import '../json/json_app.dart';
+import '../themes/styles.dart';
+import 'landing/category_slider.dart';
 import 'landing/components/ad_space.dart';
 import 'landing/components/our_new_item.dart';
 import 'landing/components/popular_packs.dart';
@@ -60,6 +63,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+          const CategorySlider(),
           const SliverToBoxAdapter(
             child: AdSpace(),
           ),

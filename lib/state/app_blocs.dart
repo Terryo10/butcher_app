@@ -21,6 +21,13 @@ class AppBlocs extends StatelessWidget {
           create: (context) => AuthBloc(),
         ),
         BlocProvider(
+          create: (context) => CategoriesBloc(
+              productsRepository:
+                  RepositoryProvider.of<ProductsRepository>(context))
+            ..add(GetCategories()),
+          lazy: true,
+        ),
+        BlocProvider(
           create: (context) => CacheBloc(
             authBloc: BlocProvider.of<AuthBloc>(context),
             cacheRepository: RepositoryProvider.of<CacheRepository>(context),
@@ -28,11 +35,6 @@ class AppBlocs extends StatelessWidget {
               AppStarted(),
             ),
           lazy: false,
-        ),
-        BlocProvider(
-          create: (context) => CategoriesBloc(
-              productsRepository:
-                  RepositoryProvider.of<ProductsRepository>(context)),
         ),
       ],
       child: app,

@@ -12,10 +12,8 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final ProductsRepository productsRepository;
   CategoriesBloc({required this.productsRepository})
       : super(CategoriesInitial()) {
-        
     on<GetCategories>(
       (event, emit) async {
-      
         emit(CategoriesLoadingState());
         try {
           emit(
@@ -23,9 +21,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
               categoriesResponseModel: await productsRepository.getCategories(),
             ),
           );
-           print('kkk');
         } catch (e) {
-         
           emit(
             CategoriesErrorState(
               message: e.toString(),

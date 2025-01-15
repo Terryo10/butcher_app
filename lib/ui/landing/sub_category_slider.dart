@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/app_defaults.dart';
 import '../../themes/styles.dart';
 
-class CategorySlider extends StatefulWidget {
-  const CategorySlider({super.key});
+class SubCategorySlider extends StatefulWidget {
+  const SubCategorySlider({super.key});
 
   @override
-  State<CategorySlider> createState() => _CategorySliderState();
+  State<SubCategorySlider> createState() => _SubCategorySliderState();
 }
 
-class _CategorySliderState extends State<CategorySlider> {
+class _SubCategorySliderState extends State<SubCategorySlider> {
   int activeMenu = 0;
   bool isSearching = false;
   @override

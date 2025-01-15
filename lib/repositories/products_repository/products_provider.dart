@@ -9,7 +9,7 @@ class ProductsProvider {
 
   ProductsProvider({required this.storage});
 
-  Future getCategories()async {
+  Future getCategories() async {
     try {
       String url = AppUrls.categories;
 
@@ -20,10 +20,8 @@ class ProductsProvider {
       var response = await http.get(Uri.parse(url), headers: headers);
 
       if (response.statusCode == 200) {
-
         return jsonDecode((response.body));
       } else {
-  
         throw Exception("Oops! Something went wrong..");
       }
     } on SocketException {
@@ -32,5 +30,4 @@ class ProductsProvider {
       throw Exception("Oops! Something went wrong...");
     }
   }
-  
 }

@@ -26,7 +26,7 @@ class _LandingPageState extends State<LandingPage> {
           if (state.isAppFirstLaunch) {
             return const OnboardingPage();
           } else {
-            return const LoginPage();
+            return const HomePage();
           }
         } else if (state is CacheErrorState) {
           return const SizedBox();
