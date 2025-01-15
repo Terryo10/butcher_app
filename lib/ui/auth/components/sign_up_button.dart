@@ -27,7 +27,7 @@ class SignUpButton extends StatelessWidget {
           const Spacer(),
           ElevatedButton(
             onPressed: () {
-              context.navigateTo(const IntroLoginRoute());
+              context.navigateTo(const HomeRoute());
             },
             style: ElevatedButton.styleFrom(elevation: 1),
             child: SvgPicture.asset(

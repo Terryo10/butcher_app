@@ -14,6 +14,5 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: NumberVerificationRoute.page),
         AutoRoute(page: IntroLoginRoute.page),
         AutoRoute(page: LoginOrSignUpRoute.page),
-        
       ];
 }

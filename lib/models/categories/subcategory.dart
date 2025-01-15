@@ -11,6 +11,7 @@ class Subcategory {
   int? categoryId;
   DateTime? createdAt;
   DateTime? updatedAt;
+  @JsonKey(name: 'products')
   List<Product>? products;
 
   Subcategory({

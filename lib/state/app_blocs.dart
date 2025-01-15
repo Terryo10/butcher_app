@@ -32,7 +32,7 @@ class AppBlocs extends StatelessWidget {
         BlocProvider(
           create: (context) => CategoriesBloc(
               productsRepository:
-                  RepositoryProvider.of<ProductsRepository>(context)),
+                  RepositoryProvider.of<ProductsRepository>(context))..add(GetCategories()),lazy: false,
         ),
       ],
       child: app,
