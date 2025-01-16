@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants/app_defaults.dart';
-import '../../models/categories/categories_response_model_test.dart';
+import '../../models/categories/category_datum.dart';
+import '../../models/categories/subcategory.dart';
 import '../../themes/styles.dart';
 
 class SubCategorySlider extends StatefulWidget {
@@ -36,17 +37,23 @@ class _SubCategorySliderState extends State<SubCategorySlider> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                        state.selectedSubCategories?.length ?? 0, (index) {
+                        state.selectedCategory?.subcategories?.length ?? 0,
+                        (index) {
                       return InkWell(
                         onTap: () {
-                          BlocProvider.of<CategoriesBloc>(context).add(
-                              GetSelectedProducts(
-                                  selectedProducts:
-                                      state.selectedSubCategories?[index] ??
-                                          Subcategory()));
                           setState(() {
                             activeMenu = index;
                           });
+
+                          BlocProvider.of<CategoriesBloc>(context).add(
+                            SelectSubCategory(
+                                categoriesLoadedState: state,
+                                categoryItem:
+                                    state.selectedCategory ?? CategoryDatum(),
+                                subcategory: state.selectedCategory
+                                        ?.subcategories?[index] ??
+                                    Subcategory()),
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 15),
@@ -67,7 +74,8 @@ class _SubCategorySliderState extends State<SubCategorySlider> {
                               child: Row(
                                 children: [
                                   Text(
-                                    state.selectedSubCategories?[index].name ??
+                                    state.selectedCategory
+                                            ?.subcategories?[index].name ??
                                         '',
                                     style: activeMenu == index
                                         ? appStyleText

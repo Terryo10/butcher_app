@@ -31,19 +31,39 @@ class PopularPacks extends StatelessWidget {
             builder: (context, state) {
               if (state is CategoriesLoadedState) {
                 return SingleChildScrollView(
-                  padding: const EdgeInsets.only(left: AppDefaults.padding),
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                      state.selectedProducts?.products?.length ?? 0,
-                      (index) => Padding(
-                        padding:
-                            const EdgeInsets.only(right: AppDefaults.padding),
-                        child: BundleTileSquare(
-                            data: state.selectedProducts?.products?[index] ??
-                                Product()),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: AppDefaults.padding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 8),
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          // Ensure GridView gets constraints from LayoutBuilder
+                          return GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, // Two items per row
+                              crossAxisSpacing: AppDefaults.padding,
+                              mainAxisSpacing: AppDefaults.padding,
+                              childAspectRatio: 0.8, // Adjust for item height
+                            ),
+                            itemCount:
+                                state.selectedSubCategory?.products?.length ??
+                                    0,
+                            itemBuilder: (context, index) {
+                              return BundleTileSquare(
+                                data: state.selectedSubCategory
+                                        ?.products?[index] ??
+                                    Product(),
+                              );
+                            },
+                          );
+                        },
                       ),
-                    ),
+                    ],
                   ),
                 );
               }

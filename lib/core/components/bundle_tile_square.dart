@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
-import '../../models/categories/categories_response_model_test.dart';
 import '../../static/app_urls.dart';
 import 'network_image.dart';
 
@@ -11,7 +10,7 @@ class BundleTileSquare extends StatelessWidget {
     required this.data,
   });
 
-  final Product data;
+  final dynamic data;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +48,6 @@ class BundleTileSquare extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,7 +67,6 @@ class BundleTileSquare extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
               Row(
                 children: [
                   Text(
@@ -89,7 +86,7 @@ class BundleTileSquare extends StatelessWidget {
                   const Spacer(),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 1),
             ],
           ),
         ),

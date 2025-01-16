@@ -1,13 +1,17 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:butcher_app/models/categories/category_datum.dart';
+import 'package:butcher_app/state/bloc/categories_bloc/categories_bloc.dart';
+import 'package:butcher_app/ui/landing/category_slider.dart';
 import 'package:butcher_app/ui/landing/sub_category_slider.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/svg.dart';
 
 import '../constants/app_defaults.dart';
 import '../constants/app_icons.dart';
-import 'landing/category_slider.dart';
+import '../models/categories/subcategory.dart';
 import 'landing/components/ad_space.dart';
 import 'landing/components/our_new_item.dart';
 import 'landing/components/popular_packs.dart';
@@ -21,6 +25,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int activeMenu = 0;
+  bool isSearching = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +69,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+          //categories
           const CategorySlider(),
           const SliverToBoxAdapter(
             child: AdSpace(),
@@ -81,3 +89,15 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 }
+
+const primaryColor = Colors.black;
+const appTextColor = Colors.grey;
+TextStyle iconText = const TextStyle(fontSize: 20, fontWeight: FontWeight.w100);
+TextStyle appStyleText = const TextStyle(
+    color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500);
+TextStyle appStyleTextActive = const TextStyle(
+    color: primaryColor, fontSize: 16, fontWeight: FontWeight.w500);
+TextStyle appBigTitle = const TextStyle(
+    color: primaryColor, fontSize: 25, fontWeight: FontWeight.w500);
+TextStyle textWithUnderline = TextStyle(
+    color: Colors.blue.shade400, fontSize: 16, fontWeight: FontWeight.w500);

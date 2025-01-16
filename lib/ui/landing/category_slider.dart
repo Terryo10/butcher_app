@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants/app_defaults.dart';
+import '../../models/categories/category_datum.dart';
+import '../../models/categories/subcategory.dart';
 import '../../themes/styles.dart';
 
 class CategorySlider extends StatefulWidget {
@@ -28,66 +30,77 @@ class _CategorySliderState extends State<CategorySlider> {
           return SliverPadding(
             padding: const EdgeInsets.symmetric(vertical: AppDefaults.padding),
             sliver: SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                        state.categoriesResponseModel?.categories?.categories
-                                ?.data?.length ??
-                            0, (index) {
-                      return InkWell(
-                        onTap: () {
-                          BlocProvider.of<CategoriesBloc>(context).add(
-                              GetSelectedSubCategory(
-                                  selectedSubCategories: state
-                                          .categoriesResponseModel
-                                          ?.categories
-                                          ?.categories
-                                          ?.data?[index]
-                                          .subcategories ??
-                                      []));
-                          setState(() {
-                            activeMenu = index;
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: activeMenu == index
-                                  ? Colors.black
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 15,
-                                top: 8,
-                                right: 15,
-                                bottom: 8,
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    state.categoriesResponseModel?.categories
-                                            ?.categories?.data?[index].name ??
-                                        '',
-                                    style: activeMenu == index
-                                        ? appStyleText
-                                        : appStyleTextActive,
-                                  )
-                                ],
-                              ),
+              child: BlocBuilder<CategoriesBloc, CategoriesState>(
+                builder: (context, state) {
+                  if (state is CategoriesLoadedState) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Column(
+                        children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(state.categories.length,
+                                  (index) {
+                                return InkWell(
+                                  onTap: () {
+                                    BlocProvider.of<CategoriesBloc>(context)
+                                        .add(
+                                      SelectCategory(
+                                        categoriesLoadedState: state,
+                                        categoryItem: state.categories[index],
+                                      ),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 15),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: state.categories.indexOf(
+                                                    state.selectedCategory ??
+                                                        CategoryDatum()) ==
+                                                index
+                                            ? Colors.black
+                                            : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 15,
+                                          top: 8,
+                                          right: 15,
+                                          bottom: 8,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              state.categories[index].name ??
+                                                  '',
+                                              style: state.categories.indexOf(
+                                                          state.selectedCategory ??
+                                                              CategoryDatum()) ==
+                                                      index
+                                                  ? appStyleText
+                                                  : appStyleTextActive,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
                             ),
                           ),
-                        ),
-                      );
-                    }),
-                  ),
-                ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
               ),
             ),
           );

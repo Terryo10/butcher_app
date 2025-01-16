@@ -20,7 +20,7 @@ class ProductsProvider {
       var response = await http.get(Uri.parse(url), headers: headers);
 
       if (response.statusCode == 200) {
-        return response.body;
+        return jsonDecode((response.body));
       } else {
         throw Exception("Oops! Something went wrong..");
       }

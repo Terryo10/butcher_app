@@ -9,14 +9,24 @@ abstract class CategoriesEvent extends Equatable {
 
 class GetCategories extends CategoriesEvent {}
 
-class GetSelectedSubCategory extends CategoriesEvent {
-  final List<Subcategory> selectedSubCategories;
+class SelectCategory extends CategoriesEvent {
+  final CategoriesLoadedState categoriesLoadedState;
+  final CategoryDatum categoryItem;
 
-  const GetSelectedSubCategory({required this.selectedSubCategories});
+  const SelectCategory({
+    required this.categoriesLoadedState,
+    required this.categoryItem,
+  });
 }
 
-class GetSelectedProducts extends CategoriesEvent {
-  final Subcategory selectedProducts;
+class SelectSubCategory extends CategoriesEvent {
+  final CategoriesLoadedState categoriesLoadedState;
+  final CategoryDatum categoryItem;
+  final Subcategory subcategory;
 
-  const GetSelectedProducts({required this.selectedProducts});
+  const SelectSubCategory({
+    required this.categoriesLoadedState,
+    required this.categoryItem,
+    required this.subcategory,
+  });
 }
