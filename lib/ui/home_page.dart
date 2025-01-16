@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
             floating: true,
             title: Container(
               width: 300,
-              height: 100,
+              height: 300,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/icons/logo.png"),
@@ -85,6 +85,11 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           //categories
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: 20,
+            ),
+          ),
           const CategorySlider(),
           const SliverToBoxAdapter(
             child: AdSpace(),
