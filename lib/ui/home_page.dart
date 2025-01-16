@@ -49,9 +49,15 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             floating: true,
-            title: SvgPicture.asset(
-              "assets/images/app_logo.svg",
-              height: 32,
+            title: Container(
+              width: 300,
+              height: 100,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/icons/logo.jpeg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             actions: [
               Padding(
