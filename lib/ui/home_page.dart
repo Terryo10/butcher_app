@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
               height: 100,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/icons/logo.jpeg"),
+                  image: AssetImage("assets/icons/logo.png"),
                   fit: BoxFit.cover,
                 ),
               ),

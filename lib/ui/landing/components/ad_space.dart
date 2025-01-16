@@ -21,7 +21,7 @@ class AdSpace extends StatelessWidget {
             height: 100,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/icons/delivery_guy.jpeg"),
+                image: AssetImage("assets/icons/grocery.png"),
                 fit: BoxFit.fill,
               ),
             ),
