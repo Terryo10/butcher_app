@@ -48,12 +48,13 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
               categoriesResponseModel: event.categoriesLoadedState,
               selectedCategory: event.categoryItem),
         );
-
-        add(SelectSubCategoryFromStart(
-            categoriesLoadedState: event.categoriesLoadedState,
-            categoryItem: event.categoryItem ?? CategoryDatum(),
-            subcategory:
-                event.categoryItem.subcategories?.first ?? Subcategory()));
+        if (event.categoryItem.subcategories?.isNotEmpty ?? false) {
+          add(SelectSubCategoryFromStart(
+              categoriesLoadedState: event.categoriesLoadedState,
+              categoryItem: event.categoryItem ?? CategoryDatum(),
+              subcategory:
+                  event.categoryItem.subcategories?.first ?? Subcategory()));
+        }
       } catch (e) {
         emit(
           CategoriesErrorState(
