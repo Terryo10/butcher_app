@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/app_defaults.dart';
-import '../../../core/components/network_image.dart';
 
 class AdSpace extends StatelessWidget {
   const AdSpace({

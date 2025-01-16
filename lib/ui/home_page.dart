@@ -1,20 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-
-import 'package:butcher_app/state/bloc/auth_bloc/auth_bloc.dart';
-
 import 'package:butcher_app/ui/landing/category_slider.dart';
 import 'package:butcher_app/ui/landing/sub_category_slider.dart';
-
+import 'package:butcher_app/ui/side_bar/side_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_svg/svg.dart';
-
 import '../constants/app_icons.dart';
-
 import 'landing/components/ad_space.dart';
-
 import 'landing/components/popular_packs.dart';
+import 'search/search_drawer.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -31,21 +24,33 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const SideBarPage(),
+      endDrawer: const SearchDrawer(),
         body: SafeArea(
       child: CustomScrollView(
         slivers: [
           SliverAppBar(
             leading: Padding(
               padding: const EdgeInsets.only(left: 8),
-              child: ElevatedButton(
-                onPressed: () {
-                  BlocProvider.of<AuthBloc>(context).add(LogOut());
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFF2F6F3),
-                  shape: const CircleBorder(),
-                ),
-                child: SvgPicture.asset(AppIcons.sidebarIcon),
+              child: Builder(
+                builder: (context) {
+                  return ElevatedButton(
+                    onPressed: () {
+                     Scaffold.of(context).openDrawer();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFF2F6F3),
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(
+                          12), // Ensure there is enough padding
+                    ),
+                    child: SvgPicture.asset(
+                      AppIcons.sidebarIcon,
+                      width: 24, // Set a fixed size for the icon
+                      height: 24, // Set a fixed size for the icon
+                    ),
+                  );
+                }
               ),
             ),
             floating: true,
@@ -62,15 +67,19 @@ class _HomePageState extends State<HomePage> {
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 8, top: 4, bottom: 4),
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Navigator.pushNamed(context, AppRoutes.search);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFF2F6F3),
-                    shape: const CircleBorder(),
-                  ),
-                  child: SvgPicture.asset(AppIcons.search),
+                child: Builder(
+                  builder: (context) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        Scaffold.of(context).openEndDrawer();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFF2F6F3),
+                        shape: const CircleBorder(),
+                      ),
+                      child: SvgPicture.asset(AppIcons.search),
+                    );
+                  }
                 ),
               ),
             ],

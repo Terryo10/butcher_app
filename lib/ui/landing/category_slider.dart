@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants/app_defaults.dart';
 import '../../models/categories/category_datum.dart';
-import '../../models/categories/subcategory.dart';
 import '../../themes/styles.dart';
 
 class CategorySlider extends StatefulWidget {
