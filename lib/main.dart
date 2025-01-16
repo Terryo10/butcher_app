@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Prime Cuts',
+      title: 'Vintage Meats',
       routerDelegate: widget.appRouter.delegate(),
       routeInformationParser: widget.appRouter.defaultRouteParser(),
     );
