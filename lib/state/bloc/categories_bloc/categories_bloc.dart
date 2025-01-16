@@ -16,12 +16,20 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     on<GetCategories>(
       (event, emit) async {
         emit(CategoriesLoadingState());
+        var response = await productsRepository.getCategories();
         try {
           emit(
             CategoriesLoadedState(
-              categoriesResponseModel: await productsRepository.getCategories(),
+              categoriesResponseModel: response,
             ),
           );
+          if (response.categories?.categories?.data?.isNotEmpty ?? false) {
+            add(SelectCategoryFromStart(
+              categoriesLoadedState: response,
+              categoryItem: response.categories?.categories?.data?.first ??
+                  CategoryDatum(),
+            ));
+          }
         } catch (e) {
           emit(
             CategoriesErrorState(
@@ -32,6 +40,28 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       },
     );
 
+    on<SelectCategoryFromStart>((event, emit) async {
+      emit(CategoriesLoadingState());
+      try {
+        emit(
+          CategoriesLoadedState(
+              categoriesResponseModel: event.categoriesLoadedState,
+              selectedCategory: event.categoryItem),
+        );
+
+        add(SelectSubCategoryFromStart(
+            categoriesLoadedState: event.categoriesLoadedState,
+            categoryItem: event.categoryItem ?? CategoryDatum(),
+            subcategory:
+                event.categoryItem.subcategories?.first ?? Subcategory()));
+      } catch (e) {
+        emit(
+          CategoriesErrorState(
+            message: e.toString(),
+          ),
+        );
+      }
+    });
     on<SelectCategory>((event, emit) async {
       emit(CategoriesLoadingState());
       try {
@@ -57,6 +87,23 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
           CategoriesLoadedState(
               categoriesResponseModel:
                   event.categoriesLoadedState.categoriesResponseModel,
+              selectedCategory: event.categoryItem,
+              selectedSubCategory: event.subcategory),
+        );
+      } catch (e) {
+        emit(
+          CategoriesErrorState(
+            message: e.toString(),
+          ),
+        );
+      }
+    });
+    on<SelectSubCategoryFromStart>((event, emit) async {
+      emit(CategoriesLoadingState());
+      try {
+        emit(
+          CategoriesLoadedState(
+              categoriesResponseModel: event.categoriesLoadedState,
               selectedCategory: event.categoryItem,
               selectedSubCategory: event.subcategory),
         );

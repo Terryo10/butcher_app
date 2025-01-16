@@ -10,7 +10,7 @@ abstract class CategoriesEvent extends Equatable {
 class GetCategories extends CategoriesEvent {}
 
 class SelectCategory extends CategoriesEvent {
-  final CategoriesLoadedState categoriesLoadedState;
+  final dynamic categoriesLoadedState;
   final CategoryDatum categoryItem;
 
   const SelectCategory({
@@ -19,12 +19,34 @@ class SelectCategory extends CategoriesEvent {
   });
 }
 
+class SelectCategoryFromStart extends CategoriesEvent {
+  final dynamic categoriesLoadedState;
+  final CategoryDatum categoryItem;
+
+  const SelectCategoryFromStart({
+    required this.categoriesLoadedState,
+    required this.categoryItem,
+  });
+}
+
 class SelectSubCategory extends CategoriesEvent {
-  final CategoriesLoadedState categoriesLoadedState;
+  final dynamic categoriesLoadedState;
   final CategoryDatum categoryItem;
   final Subcategory subcategory;
 
   const SelectSubCategory({
+    required this.categoriesLoadedState,
+    required this.categoryItem,
+    required this.subcategory,
+  });
+}
+
+class SelectSubCategoryFromStart extends CategoriesEvent {
+  final dynamic categoriesLoadedState;
+  final CategoryDatum categoryItem;
+  final Subcategory subcategory;
+
+  const SelectSubCategoryFromStart({
     required this.categoriesLoadedState,
     required this.categoryItem,
     required this.subcategory,
