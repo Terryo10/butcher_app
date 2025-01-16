@@ -1,3 +1,4 @@
+import 'package:butcher_app/repositories/auth_repository/auth_repository.dart';
 import 'package:butcher_app/repositories/cache_repository/cache_repository.dart';
 import 'package:butcher_app/state/bloc/categories_bloc/categories_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -17,17 +18,20 @@ class AppBlocs extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => AuthBloc(),
-        ),
+       
         BlocProvider(
           create: (context) => CacheBloc(
-            authBloc: BlocProvider.of<AuthBloc>(context),
             cacheRepository: RepositoryProvider.of<CacheRepository>(context),
           )..add(
               AppStarted(),
             ),
           lazy: false,
+        ),
+         BlocProvider(
+          create: (context) => AuthBloc(
+            cacheBloc: BlocProvider.of<CacheBloc>(context),
+            authRepository: RepositoryProvider.of<AuthRepository>(context),
+          ),
         ),
         BlocProvider(
           create: (context) => CategoriesBloc(

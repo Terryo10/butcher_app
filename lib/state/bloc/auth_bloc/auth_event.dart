@@ -16,3 +16,5 @@ class ForgotPassword extends AuthEvent {}
 class SubmitOTP extends AuthEvent {}
 
 class AuthenticateFromCache extends AuthEvent{}
+
+class LogOut extends AuthEvent {}

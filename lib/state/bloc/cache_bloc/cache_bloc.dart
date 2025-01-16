@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:butcher_app/state/bloc/auth_bloc/auth_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../repositories/cache_repository/cache_repository.dart';
@@ -10,16 +9,14 @@ part 'cache_state.dart';
 
 class CacheBloc extends Bloc<CacheEvent, CacheState> {
   final CacheRepository cacheRepository;
-  final AuthBloc authBloc;
   CacheBloc({
     required this.cacheRepository,
-    required this.authBloc,
   }) : super(CacheInitialState()) {
     on<AppStarted>((event, emit) async {
       emit(CacheLoadingState());
       try {
         if (await cacheRepository.hasAuthenticationToken()) {
-          authBloc.add(AuthenticateFromCache());
+          
         } else {
           if (await cacheRepository.firstAppLaunch()) {
             emit(const CacheNotFoundState(isAppFirstLaunch: false));

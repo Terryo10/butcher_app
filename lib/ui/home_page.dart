@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:butcher_app/models/categories/category_datum.dart';
-import 'package:butcher_app/state/bloc/categories_bloc/categories_bloc.dart';
+
+import 'package:butcher_app/state/bloc/auth_bloc/auth_bloc.dart';
+
 import 'package:butcher_app/ui/landing/category_slider.dart';
 import 'package:butcher_app/ui/landing/sub_category_slider.dart';
 
@@ -9,11 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import '../constants/app_defaults.dart';
 import '../constants/app_icons.dart';
-import '../models/categories/subcategory.dart';
+
 import 'landing/components/ad_space.dart';
-import 'landing/components/our_new_item.dart';
+
 import 'landing/components/popular_packs.dart';
 
 @RoutePage()
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(left: 8),
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.pushNamed(context, AppRoutes.drawerPage);
+                  BlocProvider.of<AuthBloc>(context).add(LogOut());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF2F6F3),
