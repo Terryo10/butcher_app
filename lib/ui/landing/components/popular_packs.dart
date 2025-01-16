@@ -24,7 +24,7 @@ class PopularPacks extends StatelessWidget {
         ),
         BlocListener<CategoriesBloc, CategoriesState>(
           listener: (context, state) {
-            // TODO: implement listener
+            
           },
           child: BlocBuilder<CategoriesBloc, CategoriesState>(
             builder: (context, state) {

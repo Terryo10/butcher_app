@@ -39,7 +39,7 @@ class BundleTileSquare extends StatelessWidget {
                   aspectRatio: 1 / 1,
                   child: InkWell(
                     onTap: () {
-                      print(AppUrls.getProductImage(data.image ?? ''));
+                 
                     },
                     child: NetworkImageWithLoader(
                       AppUrls.getProductImage(data.image ?? ''),

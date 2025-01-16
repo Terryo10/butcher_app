@@ -7,7 +7,7 @@ part 'subcategories_state.dart';
 class SubcategoriesBloc extends Bloc<SubcategoriesEvent, SubcategoriesState> {
   SubcategoriesBloc() : super(SubcategoriesInitial()) {
     on<SubcategoriesEvent>((event, emit) {
-      // TODO: implement event handler
+
     });
   }
 }
