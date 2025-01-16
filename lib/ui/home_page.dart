@@ -84,12 +84,6 @@ class _HomePageState extends State<HomePage> {
           const SliverToBoxAdapter(
             child: PopularPacks(),
           ),
-          const SliverPadding(
-            padding: EdgeInsets.symmetric(vertical: AppDefaults.padding),
-            sliver: SliverToBoxAdapter(
-              child: OurNewItem(),
-            ),
-          ),
         ],
       ),
     ));
