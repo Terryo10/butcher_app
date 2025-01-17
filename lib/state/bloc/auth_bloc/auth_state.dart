@@ -9,8 +9,29 @@ sealed class AuthState extends Equatable {
 
 final class AuthInitial extends AuthState {}
 
-final class AuthFirstLaunch extends AuthState {
-  final dynamic isFirstLaunch;
+class AuthLoadingState extends AuthState {}
 
-  const AuthFirstLaunch({required this.isFirstLaunch});
+class AuthAuthenticatedState extends AuthState {
+  final LoginResponseModel loginResponseModel;
+
+  const AuthAuthenticatedState(this.loginResponseModel);
 }
+
+class AuthErrorState extends AuthState {
+  final String message;
+
+  const AuthErrorState(this.message);
+}
+
+class AuthRegistrationSuccessState extends AuthState {
+  final bool requiresVerification;
+  final String? phone;
+
+  const AuthRegistrationSuccessState({
+    required this.requiresVerification,
+    this.phone,
+  });
+}
+
+class AuthVerificationSuccessState extends AuthState {}
+

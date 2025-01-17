@@ -1,3 +1,4 @@
+import 'package:butcher_app/repositories/auth_repository/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,7 +22,12 @@ class AppRepositories extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
-          create: (context) => AuthRepository(storage: storage),
+          create: (context) => AuthRepository(
+            storage: storage,
+            authProvider: AuthProvider(
+              storage: storage,
+            ),
+          ),
         ),
         RepositoryProvider(
           create: (context) => ProductsRepository(

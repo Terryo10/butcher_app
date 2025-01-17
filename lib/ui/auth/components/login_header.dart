@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../constants/app_images.dart';
-import '../../../core/components/network_image.dart';
-
 
 class LoginPageHeader extends StatelessWidget {
   const LoginPageHeader({
@@ -16,20 +14,20 @@ class LoginPageHeader extends StatelessWidget {
       children: [
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.3,
-          child: const AspectRatio(
+          child: AspectRatio(
             aspectRatio: 1 / 1,
-            child: NetworkImageWithLoader(AppImages.roundedLogo),
+            child: Lottie.asset('assets/images/animation.json'),
           ),
         ),
         Text(
-          'Welcome to',
+          'Vintage',
           style: Theme.of(context)
               .textTheme
               .titleLarge
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
         Text(
-          'Vintage Meats',
+          'Meats',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.primary,

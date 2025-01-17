@@ -16,7 +16,7 @@ class CacheBloc extends Bloc<CacheEvent, CacheState> {
       emit(CacheLoadingState());
       try {
         if (await cacheRepository.hasAuthenticationToken()) {
-          
+          emit(CacheFoundState());
         } else {
           if (await cacheRepository.firstAppLaunch()) {
             emit(const CacheNotFoundState(isAppFirstLaunch: false));
