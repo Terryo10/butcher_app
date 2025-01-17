@@ -26,7 +26,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int activeMenu = 0;
   bool isSearching = false;
-
   int currentIndex = 0;
 
   /// On labelLarge navigation tap
@@ -38,44 +37,48 @@ class _HomePageState extends State<HomePage> {
 
   /// All the pages
   final List<Widget> pages = [
-    const HomeSub(), // Replace repeated HomePage instances with HomeSub
-    const CategorySlider(), // Example subpage or other page widget
+    const HomeSub(),
+    const CategorySlider(),
     const CartPage(isHomePage: true),
-    const SubCategorySlider(), // Example subpage or other page widget
+    const SubCategorySlider(),
     const ProfilePage(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageTransitionSwitcher(
-        transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
-          return SharedAxisTransition(
-            animation: primaryAnimation,
-            secondaryAnimation: secondaryAnimation,
-            transitionType: SharedAxisTransitionType.horizontal,
-            fillColor: AppColors.scaffoldBackground,
-            child: child,
-          );
-        },
-        duration: AppDefaults.duration,
-        child: pages[currentIndex],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          onBottomNavigationTap(2); // Navigate to CartPage
-        },
-        backgroundColor: AppColors.primary,
-        child: SvgPicture.asset(AppIcons.cart),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AppBottomNavigationBar(
-        currentIndex: currentIndex,
-        onNavTap: onBottomNavigationTap,
+    return PopScope(
+      canPop: false,  // Prevent going back
+      child: Scaffold(
+        body: PageTransitionSwitcher(
+          transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+            return SharedAxisTransition(
+              animation: primaryAnimation,
+              secondaryAnimation: secondaryAnimation,
+              transitionType: SharedAxisTransitionType.horizontal,
+              fillColor: AppColors.scaffoldBackground,
+              child: child,
+            );
+          },
+          duration: AppDefaults.duration,
+          child: pages[currentIndex],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            onBottomNavigationTap(2); // Navigate to CartPage
+          },
+          backgroundColor: AppColors.primary,
+          child: SvgPicture.asset(AppIcons.cart),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: AppBottomNavigationBar(
+          currentIndex: currentIndex,
+          onNavTap: onBottomNavigationTap,
+        ),
       ),
     );
   }
 }
+
 
 
 class HomeSub extends StatelessWidget {
