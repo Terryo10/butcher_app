@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:butcher_app/ui/landing/category_slider.dart';
 import 'package:butcher_app/ui/landing/sub_category_slider.dart';
+import 'package:butcher_app/ui/menu.dart';
+import 'package:butcher_app/ui/save/save_page.dart';
 import 'package:butcher_app/ui/side_bar/side_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -38,9 +40,9 @@ class _HomePageState extends State<HomePage> {
   /// All the pages
   final List<Widget> pages = [
     const HomeSub(),
-    const CategorySlider(),
+    const MenuPage(),
     const CartPage(isHomePage: true),
-    const SubCategorySlider(),
+    const SavePage(),
     const ProfilePage(),
   ];
 
