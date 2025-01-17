@@ -30,4 +30,8 @@ class AuthRepository {
       await authProvider.loginWithGoogle(),
     );
   }
+
+  Future<void> saveToken(String token)async{
+   await storage.write(key: 'token', value: token);
+  }
 }

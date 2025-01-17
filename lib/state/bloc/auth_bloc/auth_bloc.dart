@@ -22,6 +22,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           identifier: event.identifier,
           password: event.password,
         );
+        await authRepository.saveToken('${response.token}');
+        cacheBloc.add(AppStarted());
         emit(AuthAuthenticatedState(response));
       } catch (e) {
         emit(AuthErrorState(e.toString()));
@@ -64,6 +66,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         emit(AuthLoadingState());
         final response = await authRepository.loginWithGoogle();
+        await authRepository.saveToken('${response.token}');
+       
+        Future.delayed(Duration.zero,(){
+           cacheBloc.add(AppStarted());
+        });
         emit(AuthAuthenticatedState(response));
       } catch (e) {
         emit(AuthErrorState(e.toString()));

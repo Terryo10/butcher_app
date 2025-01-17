@@ -67,7 +67,7 @@ class _LoginPageFormState extends State<LoginPageForm> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthAuthenticatedState) {
-          context.navigateTo(const IntroLoginRoute());
+          context.navigateTo(const HomeRoute());
         } else if (state is AuthErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
