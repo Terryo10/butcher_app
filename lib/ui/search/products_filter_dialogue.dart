@@ -4,7 +4,6 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_defaults.dart';
 import '../landing/components/categories_chip.dart';
 
-
 class ProductFiltersDialog extends StatelessWidget {
   const ProductFiltersDialog({super.key});
 
