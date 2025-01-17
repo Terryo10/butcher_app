@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../repositories/products_repository/products_repository.dart';
 import 'bloc/auth_bloc/auth_bloc.dart';
 import 'bloc/cache_bloc/cache_bloc.dart';
+import 'bloc/search_bloc/search_bloc.dart';
 
 class AppBlocs extends StatelessWidget {
   final Widget app;
@@ -18,7 +19,6 @@ class AppBlocs extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-       
         BlocProvider(
           create: (context) => CacheBloc(
             cacheRepository: RepositoryProvider.of<CacheRepository>(context),
@@ -27,7 +27,7 @@ class AppBlocs extends StatelessWidget {
             ),
           lazy: false,
         ),
-         BlocProvider(
+        BlocProvider(
           create: (context) => AuthBloc(
             cacheBloc: BlocProvider.of<CacheBloc>(context),
             authRepository: RepositoryProvider.of<AuthRepository>(context),
@@ -38,6 +38,12 @@ class AppBlocs extends StatelessWidget {
               productsRepository:
                   RepositoryProvider.of<ProductsRepository>(context))
             ..add(GetCategories()),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => SearchBloc(
+              productsRepository:
+                  RepositoryProvider.of<ProductsRepository>(context)),
           lazy: false,
         ),
       ],

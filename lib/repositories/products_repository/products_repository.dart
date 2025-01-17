@@ -1,6 +1,7 @@
 import 'package:butcher_app/repositories/products_repository/products_provider.dart';
 
 import '../../models/categories/categories_response_model.dart';
+import '../../models/product_search/product_search_model.dart';
 
 class ProductsRepository {
   final ProductsProvider provider;
@@ -9,5 +10,11 @@ class ProductsRepository {
 
   Future<CategoriesResponseModel> getCategories() async {
     return CategoriesResponseModel.fromJson(await provider.getCategories());
+  }
+
+  Future<SearchProductsResponse> searchProducts({required String name}) async {
+    final searchProductsResponse = searchProductsResponseFromMap(
+        await provider.searchProducts(name: name));
+    return searchProductsResponse;
   }
 }

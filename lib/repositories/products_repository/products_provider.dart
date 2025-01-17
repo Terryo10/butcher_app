@@ -30,4 +30,26 @@ class ProductsProvider {
       throw Exception("Oops! Something went wrong...");
     }
   }
+
+  Future searchProducts({required String name}) async {
+    try {
+      String url = AppUrls.searchProducts(name);
+
+      var headers = <String, String>{
+        "content-type": "application/json",
+        'Accept': 'application/json',
+      };
+      var response = await http.get(Uri.parse(url), headers: headers);
+
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        throw Exception("Oops! Something went wrong..");
+      }
+    } on SocketException {
+      throw Exception('We cannot connect, check your connection');
+    } catch (e) {
+      throw Exception("Oops! Something went wrong...");
+    }
+  }
 }

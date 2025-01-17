@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../constants/app_defaults.dart';
 import '../../constants/app_icons.dart';
 import '../../core/components/app_back_button.dart';
+import '../../models/product_search/product_search_model.dart';
+import '../../state/bloc/search_bloc/search_bloc.dart';
 import '../../utils/ui_util.dart';
 import 'products_filter_dialogue.dart';
 
@@ -47,18 +50,35 @@ class _RecentSearchList extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.only(top: 16),
-              itemBuilder: (context, index) {
-                return const SearchHistoryTile();
+          BlocListener<SearchBloc, SearchState>(
+            listener: (context, state) {},
+            child: BlocBuilder<SearchBloc, SearchState>(
+              builder: (context, state) {
+                if (state is SearchProductLoadedState) {
+                  return Expanded(
+                    child: ListView.separated(
+                      padding: const EdgeInsets.only(top: 16),
+                      itemBuilder: (context, index) {
+                        return SearchHistoryTile(
+                          product: state.searchResponse.products?.products
+                                  ?.data?[index] ??
+                              ProductSearchDatum(),
+                        );
+                      },
+                      separatorBuilder: (context, index) => const Divider(
+                        thickness: 0.1,
+                      ),
+                      itemCount: state.searchResponse.products?.products?.data
+                              ?.length ??
+                          0,
+                    ),
+                  );
+                }
+
+                return const SizedBox();
               },
-              separatorBuilder: (context, index) => const Divider(
-                thickness: 0.1,
-              ),
-              itemCount: 16,
             ),
-          )
+          ),
         ],
       ),
     );
@@ -88,8 +108,14 @@ class _SearchPageHeader extends StatelessWidget {
                     ),
                     textInputAction: TextInputAction.search,
                     autofocus: true,
-                    onChanged: (String? value) {},
-                    onFieldSubmitted: (v) {},
+                    onChanged: (String? value) {
+                      BlocProvider.of<SearchBloc>(context)
+                          .add(SearchProduct(name: value ?? ''));
+                    },
+                    onFieldSubmitted: (v) {
+                      BlocProvider.of<SearchBloc>(context)
+                          .add(SearchProduct(name: v));
+                    },
                   ),
                 ),
                 Positioned(
@@ -128,10 +154,8 @@ class _SearchPageHeader extends StatelessWidget {
 }
 
 class SearchHistoryTile extends StatelessWidget {
-  const SearchHistoryTile({
-    super.key,
-  });
-
+  const SearchHistoryTile({super.key, required this.product});
+  final ProductSearchDatum product;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -144,7 +168,7 @@ class SearchHistoryTile extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              'Vegetables',
+              product.name ?? '',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const Spacer(),
