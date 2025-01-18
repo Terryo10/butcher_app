@@ -1,3 +1,4 @@
+import 'package:butcher_app/ui/products/product_details_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants.dart';
@@ -19,7 +20,13 @@ class BundleTileSquare extends StatelessWidget {
       borderRadius: AppDefaults.borderRadius,
       child: InkWell(
         onTap: () {
-          // Navigator.pushNamed(context, AppRoutes.bundleProduct);
+          Navigator.of(context).pop();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductDetailsPage(product: data),
+            ),
+          );
         },
         borderRadius: AppDefaults.borderRadius,
         child: Container(
@@ -38,9 +45,7 @@ class BundleTileSquare extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 1 / 1,
                   child: InkWell(
-                    onTap: () {
-                 
-                    },
+                    onTap: () {},
                     child: NetworkImageWithLoader(
                       AppUrls.getProductImage(data.image ?? ''),
                       fit: BoxFit.contain,

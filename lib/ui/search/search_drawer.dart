@@ -8,6 +8,7 @@ import '../../core/components/app_back_button.dart';
 import '../../models/product_search/product_search_model.dart';
 import '../../state/bloc/search_bloc/search_bloc.dart';
 import '../../utils/ui_util.dart';
+import '../products/product_details_page.dart';
 import 'products_filter_dialogue.dart';
 
 class SearchDrawer extends StatelessWidget {
@@ -159,7 +160,15 @@ class SearchHistoryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailsPage(product: product),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,
