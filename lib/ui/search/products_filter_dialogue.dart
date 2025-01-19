@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/app_defaults.dart';
+import '../../state/bloc/categories_bloc/categories_bloc.dart';
+import '../../state/bloc/search_bloc/search_bloc.dart';
 import '../landing/components/categories_chip.dart';
 
-class ProductFiltersDialog extends StatelessWidget {
+class ProductFiltersDialog extends StatefulWidget {
   const ProductFiltersDialog({super.key});
+
+  @override
+  State<ProductFiltersDialog> createState() => _ProductFiltersDialogState();
+}
+
+class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
+  int selectedIndex = 0;
+  String selectedOrderBy = "Desc";
+  String selectedCategory = "";
+  RangeValues currentRangeValues = const RangeValues(40, 80);
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +38,35 @@ class ProductFiltersDialog extends StatelessWidget {
               margin: const EdgeInsets.all(8),
             ),
             const _FilterHeader(),
-            const _SortBy(),
-            const _PriceRange(),
-            const _CategoriesSelector(),
-            const _BrandSelector(),
-            _RatingStar(
-              totalStarsSelected: 4,
-              onStarSelect: (v) {
-                debugPrint('Star selected $v');
-              },
+            _SortBy(
+              selectedOrderBy: selectedOrderBy,
             ),
+            _PriceRange(
+              currentRangeValues: currentRangeValues,
+            ),
+            _BrandSelector(
+              selectedIndex: selectedIndex,
+            ),
+
+            // _RatingStar(
+            //   totalStarsSelected: 4,
+            //   onStarSelect: (v) {
+            //     debugPrint('Star selected $v');
+            //   },
+            // ),
             SizedBox(
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.all(AppDefaults.padding),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    BlocProvider.of<SearchBloc>(context).add(
+                        SearchAddFiltersToProduct(
+                            selectedCategory: selectedIndex.toString(),
+                            selectedOrder: selectedOrderBy,
+                            selectedPriceRanges: currentRangeValues));
+                  },
                   child: const Text('Apply Filter'),
                 ),
               ),
@@ -112,9 +138,15 @@ class _RatingStar extends StatelessWidget {
   }
 }
 
-class _BrandSelector extends StatelessWidget {
-  const _BrandSelector();
+class _BrandSelector extends StatefulWidget {
+  _BrandSelector({required this.selectedIndex});
+  int selectedIndex = 0;
 
+  @override
+  State<_BrandSelector> createState() => _BrandSelectorState();
+}
+
+class _BrandSelectorState extends State<_BrandSelector> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -124,7 +156,7 @@ class _BrandSelector extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Brand',
+              'Categories',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -132,40 +164,32 @@ class _BrandSelector extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: Wrap(
-              alignment: WrapAlignment.start,
-              spacing: 16,
-              runSpacing: 16,
-              children: [
-                CategoriesChip(
-                  isActive: true,
-                  label: 'Any',
-                  onPressed: () {},
-                ),
-                CategoriesChip(
-                  isActive: false,
-                  label: 'Square',
-                  onPressed: () {},
-                ),
-                CategoriesChip(
-                  isActive: false,
-                  label: 'Beximco Pharma',
-                  onPressed: () {},
-                ),
-                CategoriesChip(
-                  isActive: false,
-                  label: 'ACI Limited',
-                  onPressed: () {},
-                ),
-                CategoriesChip(
-                  isActive: false,
-                  label: 'See All',
-                  onPressed: () {},
-                ),
-              ],
-            ),
+          BlocBuilder<CategoriesBloc, CategoriesState>(
+            builder: (context, state) {
+              if (state is CategoriesLoadedState) {
+                return SizedBox(
+                  width: double.infinity,
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    spacing: 16,
+                    runSpacing: 16,
+                    children: List.generate(state.categories.length, (index) {
+                      return CategoriesChip(
+                        isActive: widget.selectedIndex == index,
+                        label: state.categories[index].name ?? '',
+                        onPressed: () {
+                          setState(() {
+                            widget.selectedIndex = index;
+                          });
+                        },
+                      );
+                    }),
+                  ),
+                );
+              }
+
+              return const SizedBox();
+            },
           )
         ],
       ),
@@ -237,15 +261,14 @@ class _CategoriesSelector extends StatelessWidget {
 }
 
 class _PriceRange extends StatefulWidget {
-  const _PriceRange();
+  _PriceRange({required this.currentRangeValues});
+  RangeValues currentRangeValues;
 
   @override
   State<_PriceRange> createState() => _PriceRangeState();
 }
 
 class _PriceRangeState extends State<_PriceRange> {
-  RangeValues _currentRangeValues = const RangeValues(40, 80);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -266,17 +289,17 @@ class _PriceRangeState extends State<_PriceRange> {
             max: 100,
             min: 0,
             labels: RangeLabels(
-              _currentRangeValues.start.round().toString(),
-              _currentRangeValues.end.round().toString(),
+              widget.currentRangeValues.start.round().toString(),
+              widget.currentRangeValues.end.round().toString(),
             ),
             onChanged: (RangeValues values) {
               setState(() {
-                _currentRangeValues = values;
+                widget.currentRangeValues = values;
               });
             },
             activeColor: AppColors.primary,
             inactiveColor: AppColors.gray,
-            values: _currentRangeValues,
+            values: widget.currentRangeValues,
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -295,9 +318,15 @@ class _PriceRangeState extends State<_PriceRange> {
   }
 }
 
-class _SortBy extends StatelessWidget {
-  const _SortBy();
+class _SortBy extends StatefulWidget {
+  _SortBy({required this.selectedOrderBy});
+  String selectedOrderBy = "";
 
+  @override
+  State<_SortBy> createState() => _SortByState();
+}
+
+class _SortByState extends State<_SortBy> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -313,7 +342,7 @@ class _SortBy extends StatelessWidget {
           ),
           const Spacer(),
           DropdownButton(
-            value: 'Popularity',
+            value: widget.selectedOrderBy,
             underline: const SizedBox(),
             icon: const Icon(
               Icons.arrow_drop_down,
@@ -321,15 +350,19 @@ class _SortBy extends StatelessWidget {
             ),
             items: const [
               DropdownMenuItem(
-                value: 'Popularity',
-                child: Text('Popularity'),
+                value: 'Asc',
+                child: Text('Ascending Order'),
               ),
               DropdownMenuItem(
-                value: 'Price',
-                child: Text('Price'),
+                value: 'Desc',
+                child: Text('Descending Order'),
               ),
             ],
-            onChanged: (v) {},
+            onChanged: (v) {
+              setState(() {
+                widget.selectedOrderBy = v ?? 'Desc';
+              });
+            },
           )
         ],
       ),
@@ -352,7 +385,9 @@ class _FilterHeader extends StatelessWidget {
             height: 40,
             width: 40,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
                 backgroundColor: AppColors.scaffoldWithBoxBackground,
