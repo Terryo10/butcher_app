@@ -20,6 +20,24 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
   String selectedCategory = "";
   RangeValues currentRangeValues = const RangeValues(40, 80);
 
+  void updateOrderBy(String orderBy) {
+    setState(() {
+      selectedOrderBy = orderBy;
+    });
+  }
+
+  void updatePriceRange(RangeValues ranges) {
+    setState(() {
+      currentRangeValues = ranges;
+    });
+  }
+
+  void updateCategory(String cat) {
+    setState(() {
+      selectedCategory = cat;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -32,7 +50,7 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
               width: 56,
               height: 3,
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: const Color.fromARGB(255, 165, 139, 139),
                 borderRadius: AppDefaults.borderRadius,
               ),
               margin: const EdgeInsets.all(8),
@@ -40,12 +58,15 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
             const _FilterHeader(),
             _SortBy(
               selectedOrderBy: selectedOrderBy,
+              onOrderByChanged: updateOrderBy,
             ),
             _PriceRange(
               currentRangeValues: currentRangeValues,
+              onPriceRangeChange: updatePriceRange,
             ),
             _BrandSelector(
               selectedIndex: selectedIndex,
+              onCategoryValueChange: updateCategory,
             ),
 
             // _RatingStar(
@@ -139,8 +160,14 @@ class _RatingStar extends StatelessWidget {
 }
 
 class _BrandSelector extends StatefulWidget {
-  _BrandSelector({required this.selectedIndex});
-  int selectedIndex = 0;
+  final int selectedIndex;
+
+  final ValueChanged<String> onCategoryValueChange;
+  const _BrandSelector({
+    super.key,
+    required this.selectedIndex,
+    required this.onCategoryValueChange,
+  });
 
   @override
   State<_BrandSelector> createState() => _BrandSelectorState();
@@ -178,9 +205,7 @@ class _BrandSelectorState extends State<_BrandSelector> {
                         isActive: widget.selectedIndex == index,
                         label: state.categories[index].name ?? '',
                         onPressed: () {
-                          setState(() {
-                            widget.selectedIndex = index;
-                          });
+                          widget.onCategoryValueChange(index.toString());
                         },
                       );
                     }),
@@ -261,8 +286,14 @@ class _CategoriesSelector extends StatelessWidget {
 }
 
 class _PriceRange extends StatefulWidget {
-  _PriceRange({required this.currentRangeValues});
-  RangeValues currentRangeValues;
+  final RangeValues currentRangeValues;
+
+  final ValueChanged<RangeValues> onPriceRangeChange;
+  const _PriceRange({
+    super.key,
+    required this.currentRangeValues,
+    required this.onPriceRangeChange,
+  });
 
   @override
   State<_PriceRange> createState() => _PriceRangeState();
@@ -293,9 +324,7 @@ class _PriceRangeState extends State<_PriceRange> {
               widget.currentRangeValues.end.round().toString(),
             ),
             onChanged: (RangeValues values) {
-              setState(() {
-                widget.currentRangeValues = values;
-              });
+              widget.onPriceRangeChange(values);
             },
             activeColor: AppColors.primary,
             inactiveColor: AppColors.gray,
@@ -319,8 +348,13 @@ class _PriceRangeState extends State<_PriceRange> {
 }
 
 class _SortBy extends StatefulWidget {
-  _SortBy({required this.selectedOrderBy});
-  String selectedOrderBy = "";
+  final String selectedOrderBy;
+  final ValueChanged<String> onOrderByChanged;
+  const _SortBy({
+    super.key,
+    required this.selectedOrderBy,
+    required this.onOrderByChanged,
+  });
 
   @override
   State<_SortBy> createState() => _SortByState();
@@ -359,9 +393,7 @@ class _SortByState extends State<_SortBy> {
               ),
             ],
             onChanged: (v) {
-              setState(() {
-                widget.selectedOrderBy = v ?? 'Desc';
-              });
+              widget.onOrderByChanged(v ?? 'Desc');
             },
           )
         ],
