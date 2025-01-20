@@ -62,8 +62,7 @@ class AuthProvider {
 
   Future<Map<String, dynamic>> register({
     required String name,
-    String? email,
-    String? phone,
+    required String identifier,
     required String password,
     required String passwordConfirmation,
   }) async {
@@ -72,8 +71,7 @@ class AuthProvider {
         Uri.parse(AppUrls.register),
         body: {
           'name': name,
-          if (email != null) 'email': email,
-          if (phone != null) 'phone': phone,
+          'identifier': identifier,
           'password': password,
           'password_confirmation': passwordConfirmation,
         },

@@ -19,15 +19,13 @@ class LoginWithCredentials extends AuthEvent {
 
 class RegisterUser extends AuthEvent {
   final String name;
-  final String? email;
-  final String? phone;
+  final String identifier;
   final String password;
   final String passwordConfirmation;
 
   const RegisterUser({
     required this.name,
-    this.email,
-    this.phone,
+    required this.identifier,
     required this.password,
     required this.passwordConfirmation,
   });

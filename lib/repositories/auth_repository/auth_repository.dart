@@ -1,4 +1,5 @@
 import 'package:butcher_app/models/auth/login_response_model.dart';
+import 'package:butcher_app/models/auth/register_response_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'auth_provider.dart';
@@ -21,6 +22,23 @@ class AuthRepository {
       await authProvider.login(
         identifier: identifier,
         password: password,
+      ),
+    );
+  }
+
+   Future<RegisterResponseModel> register({
+    required String identifier,
+    required String password,
+    required String passwordConfirmation,
+    required String name,
+    re
+  }) async {
+    return RegisterResponseModel.fromJson(
+      await authProvider.register(
+        identifier: identifier,
+        password: password,
+        name: name,
+        passwordConfirmation: passwordConfirmation
       ),
     );
   }

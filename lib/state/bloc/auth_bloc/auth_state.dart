@@ -24,14 +24,10 @@ class AuthErrorState extends AuthState {
 }
 
 class AuthRegistrationSuccessState extends AuthState {
-  final bool requiresVerification;
-  final String? phone;
-
+  final RegisterResponseModel registerResponseModel;
   const AuthRegistrationSuccessState({
-    required this.requiresVerification,
-    this.phone,
+    required this.registerResponseModel,
   });
 }
 
 class AuthVerificationSuccessState extends AuthState {}
-
