@@ -5,6 +5,7 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_defaults.dart';
 import 'components/sign_up_form.dart';
 import 'components/sign_up_page_header.dart';
+import 'components/social_logins.dart';
 
 @RoutePage()
 class SignUpPage extends StatelessWidget {
@@ -22,6 +23,8 @@ class SignUpPage extends StatelessWidget {
                 SignUpPageHeader(),
                 SizedBox(height: AppDefaults.padding),
                 SignUpForm(),
+                SizedBox(height: AppDefaults.padding),
+                SocialLogins(),
               ],
             ),
           ),

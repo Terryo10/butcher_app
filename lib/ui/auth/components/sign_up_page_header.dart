@@ -14,7 +14,7 @@ class SignUpPageHeader extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(AppDefaults.padding),
         child: Text(
-          'Welcome to our\nVintage Meats',
+          'Sign Up to\nVintage Meats',
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
