@@ -12,9 +12,20 @@ class ProductsRepository {
     return CategoriesResponseModel.fromJson(await provider.getCategories());
   }
 
-  Future<SearchProductsResponse> searchProducts({required String name}) async {
+  Future<SearchProductsResponse> searchProducts({
+    required String name,
+    String? order,
+    String? category,
+    double? minPrice,
+    double? maxPrice,
+  }) async {
     final searchProductsResponse = searchProductsResponseFromMap(
-        await provider.searchProducts(name: name));
+        await provider.searchProducts(
+            name: name,
+            order: order,
+            category: category,
+            maxPrice: maxPrice,
+            minPrice: minPrice));
     return searchProductsResponse;
   }
 }

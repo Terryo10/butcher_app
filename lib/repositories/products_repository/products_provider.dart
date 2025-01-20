@@ -31,20 +31,43 @@ class ProductsProvider {
     }
   }
 
-  Future searchProducts({required String name}) async {
+  Future searchProducts({
+    required String name,
+    String? order,
+    String? category,
+    double? minPrice,
+    double? maxPrice,
+  }) async {
     try {
       String url = AppUrls.searchProducts(name);
 
+      // Define the request headers
       var headers = <String, String>{
-        "content-type": "application/json",
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        "Accept": "application/json",
       };
-      var response = await http.get(Uri.parse(url), headers: headers);
 
+      // Build the request body
+      var body = {
+        "name": name,
+        if (order != null) "order": order,
+        if (category != null) "category": category,
+        if (minPrice != null) "min_price": minPrice,
+        if (maxPrice != null) "max_price": maxPrice,
+      };
+
+      // Make the POST request
+      var response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonEncode(body), // Convert the body to JSON
+      );
+
+      // Handle the response
       if (response.statusCode == 200) {
         return response.body;
       } else {
-        throw Exception("Oops! Something went wrong..");
+        throw Exception("Oops! Something went wrong...");
       }
     } on SocketException {
       throw Exception('We cannot connect, check your connection');

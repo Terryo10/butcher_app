@@ -12,3 +12,12 @@ class SearchProduct extends SearchEvent {
 
   const SearchProduct({required this.name});
 }
+
+class SearchAddFiltersToProduct extends SearchEvent {
+  final String? selectedOrder;
+  final String? selectedCategory;
+  final RangeValues? selectedPriceRanges;
+
+  const SearchAddFiltersToProduct(
+      {this.selectedCategory, this.selectedOrder, this.selectedPriceRanges});
+}

@@ -17,6 +17,15 @@ final class SearchProductLoadedState extends SearchState {
   const SearchProductLoadedState({required this.searchResponse});
 }
 
+final class SearchProductSelectFiltersState extends SearchState {
+  final String? selectedOrder;
+  final String? selectedCategory;
+  final RangeValues? selectedPriceRanges;
+
+  const SearchProductSelectFiltersState(
+      {this.selectedOrder, this.selectedCategory, this.selectedPriceRanges});
+}
+
 final class SearchProductErrorState extends SearchState {
   final String message;
 
