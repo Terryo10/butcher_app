@@ -74,6 +74,9 @@ class _RecentSearchList extends StatelessWidget {
                           0,
                     ),
                   );
+                } else if (state is SearchProductLoadingState) {
+                  return const SizedBox(
+                      child: Text('Fetching data please wait...'));
                 }
 
                 return const SizedBox();
