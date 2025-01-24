@@ -9,6 +9,7 @@ class Product {
   String? price;
   int? stock;
   String? image;
+  List<String>? images;
   String? description;
   int? subcategoryId;
   DateTime? createdAt;
@@ -20,6 +21,7 @@ class Product {
     this.price,
     this.stock,
     this.image,
+    this.images,
     this.description,
     this.subcategoryId,
     this.createdAt,
