@@ -19,7 +19,7 @@ import 'package:butcher_app/ui/auth/password_reset_page.dart' as _i9;
 import 'package:butcher_app/ui/auth/sign_up_page.dart' as _i11;
 import 'package:butcher_app/ui/home_page.dart' as _i2;
 import 'package:butcher_app/ui/landing/landing_page.dart' as _i4;
-import 'package:butcher_app/ui/products/product_details_page.dart' as _i10;
+import 'package:butcher_app/core/components/product_details_page.dart' as _i10;
 import 'package:flutter/material.dart' as _i13;
 
 /// generated route for

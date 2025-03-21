@@ -28,4 +28,14 @@ class AppUrls {
   // Password Reset
   static const String forgotPassword = '$auth/forgot-password';
   static const String resetPassword = '$auth/reset-password';
+  
+  // Cart Endpoints
+  static const String cart = '${apiBase}cart';
+  static const String cartAdd = '$cart/add';
+  static const String cartUpdate = '$cart/update'; // Usage: '$cartUpdate/$itemId'
+  static const String cartRemove = '$cart/remove'; // Usage: '$cartRemove/$itemId'
+  static const String cartClear = '$cart/clear';
+  static const String cartCouponApply = '$cart/coupon/apply';
+  static const String cartCouponRemove = '$cart/coupon/remove';
+  static const String cartSync = '$cart/sync';
 }

@@ -6,7 +6,14 @@ import '../../../constants/app_defaults.dart';
 class CouponCodeField extends StatefulWidget {
   const CouponCodeField({
     super.key,
+    this.appliedCoupon,
+    required this.onApply,
+    required this.onRemove,
   });
+
+  final String? appliedCoupon;
+  final Function(String) onApply;
+  final VoidCallback onRemove;
 
   @override
   State<CouponCodeField> createState() => _CouponCodeFieldState();
@@ -14,23 +21,22 @@ class CouponCodeField extends StatefulWidget {
 
 class _CouponCodeFieldState extends State<CouponCodeField> {
   late TextEditingController controller;
-
   bool isFilled = false;
-
-  onChange(String? text) {
-    if (text != null && text.isNotEmpty) {
-      isFilled = true;
-      setState(() {});
-    } else {
-      isFilled = false;
-      setState(() {});
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController();
+    controller = TextEditingController(text: widget.appliedCoupon);
+    isFilled = widget.appliedCoupon != null && widget.appliedCoupon!.isNotEmpty;
+  }
+
+  @override
+  void didUpdateWidget(CouponCodeField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.appliedCoupon != oldWidget.appliedCoupon) {
+      controller.text = widget.appliedCoupon ?? '';
+      isFilled = widget.appliedCoupon != null && widget.appliedCoupon!.isNotEmpty;
+    }
   }
 
   @override
@@ -39,8 +45,37 @@ class _CouponCodeFieldState extends State<CouponCodeField> {
     super.dispose();
   }
 
+  void onChange(String? text) {
+    if (text != null && text.isNotEmpty) {
+      setState(() {
+        isFilled = true;
+      });
+    } else {
+      setState(() {
+        isFilled = false;
+      });
+    }
+  }
+
+  void _applyCoupon() {
+    if (isFilled && controller.text.isNotEmpty) {
+      widget.onApply(controller.text);
+      FocusScope.of(context).unfocus();
+    }
+  }
+
+  void _removeCoupon() {
+    controller.clear();
+    setState(() {
+      isFilled = false;
+    });
+    widget.onRemove();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bool hasCoupon = widget.appliedCoupon != null && widget.appliedCoupon!.isNotEmpty;
+
     return Padding(
       padding: const EdgeInsets.all(AppDefaults.padding),
       child: Column(
@@ -48,7 +83,7 @@ class _CouponCodeFieldState extends State<CouponCodeField> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Add Coupon',
+              hasCoupon ? 'Applied Coupon' : 'Add Coupon',
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
@@ -60,11 +95,18 @@ class _CouponCodeFieldState extends State<CouponCodeField> {
             children: [
               Expanded(
                 child: TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Entry Voucher Code',
-                    contentPadding: EdgeInsets.symmetric(
+                  decoration: InputDecoration(
+                    labelText: hasCoupon ? 'Applied Voucher Code' : 'Enter Voucher Code',
+                    contentPadding: const EdgeInsets.symmetric(
                       horizontal: AppDefaults.padding,
                     ),
+                    suffixIcon: hasCoupon
+                        ? const IconButton(
+                            icon:  Icon(Icons.check_circle, color: Colors.green),
+                            onPressed: null,
+                          )
+                        : null,
+                    enabled: !hasCoupon, // Disable editing if coupon is applied
                   ),
                   onChanged: onChange,
                   controller: controller,
@@ -74,16 +116,19 @@ class _CouponCodeFieldState extends State<CouponCodeField> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: hasCoupon ? _removeCoupon : (isFilled ? _applyCoupon : null),
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: isFilled ? null : AppColors.placeholder,
-                    backgroundColor:
-                        isFilled ? null : Colors.grey.withValues(alpha: 0.3),
+                    foregroundColor: hasCoupon 
+                        ? Colors.red
+                        : (isFilled ? null : AppColors.placeholder),
+                    backgroundColor: hasCoupon
+                        ? Colors.red.withValues(alpha: 0.1)
+                        : (isFilled ? null : Colors.grey.withValues(alpha:0.3)),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text('Apply'),
+                  child: Text(hasCoupon ? 'Remove' : 'Apply'),
                 ),
               ),
             ],

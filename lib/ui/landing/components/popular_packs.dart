@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../core/components/bundle_tile_square.dart';
 import '../../../core/components/title_and_action_button.dart';
-import '../../../models/categories/categories_response_model_test.dart';
+import '../../../models/categories/product.dart';
 
 class PopularPacks extends StatelessWidget {
   const PopularPacks({
@@ -23,9 +23,7 @@ class PopularPacks extends StatelessWidget {
           },
         ),
         BlocListener<CategoriesBloc, CategoriesState>(
-          listener: (context, state) {
-            
-          },
+          listener: (context, state) {},
           child: BlocBuilder<CategoriesBloc, CategoriesState>(
             builder: (context, state) {
               if (state is CategoriesLoadedState) {
@@ -54,7 +52,7 @@ class PopularPacks extends StatelessWidget {
                                     0,
                             itemBuilder: (context, index) {
                               return BundleTileSquare(
-                                data: state.selectedSubCategory
+                                product: state.selectedSubCategory
                                         ?.products?[index] ??
                                     Product(),
                               );

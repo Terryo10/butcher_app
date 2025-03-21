@@ -8,7 +8,7 @@ import '../../core/components/app_back_button.dart';
 import '../../models/product_search/product_search_model.dart';
 import '../../state/bloc/search_bloc/search_bloc.dart';
 import '../../utils/ui_util.dart';
-import '../products/product_details_page.dart';
+import '../../core/components/product_details_page.dart';
 import 'products_filter_dialogue.dart';
 
 class SearchDrawer extends StatelessWidget {

@@ -9,11 +9,13 @@ class PriceAndQuantityRow extends StatefulWidget {
     required this.currentPrice,
     required this.orginalPrice,
     required this.quantity,
+    this.onQuantityChanged, // Added callback for quantity changes
   });
 
   final double currentPrice;
   final double orginalPrice;
   final int quantity;
+  final Function(int)? onQuantityChanged; // Callback to notify parent
 
   @override
   State<PriceAndQuantityRow> createState() => _PriceAndQuantityRowState();
@@ -25,12 +27,20 @@ class _PriceAndQuantityRowState extends State<PriceAndQuantityRow> {
   onQuantityIncrease() {
     quantity++;
     setState(() {});
+    // Notify parent about the quantity change
+    if (widget.onQuantityChanged != null) {
+      widget.onQuantityChanged!(quantity);
+    }
   }
 
   onQuantityDecrease() {
     if (quantity > 1) {
       quantity--;
       setState(() {});
+      // Notify parent about the quantity change
+      if (widget.onQuantityChanged != null) {
+        widget.onQuantityChanged!(quantity);
+      }
     }
   }
 

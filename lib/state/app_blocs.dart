@@ -1,10 +1,12 @@
 import 'package:butcher_app/repositories/auth_repository/auth_repository.dart';
 import 'package:butcher_app/repositories/cache_repository/cache_repository.dart';
+import 'package:butcher_app/state/bloc/cart_bloc/cart_bloc.dart';
 import 'package:butcher_app/state/bloc/categories_bloc/categories_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../repositories/cart_repository/cart_repository.dart';
 import '../repositories/products_repository/products_repository.dart';
 import 'bloc/auth_bloc/auth_bloc.dart';
 import 'bloc/cache_bloc/cache_bloc.dart';
@@ -45,6 +47,12 @@ class AppBlocs extends StatelessWidget {
               productsRepository:
                   RepositoryProvider.of<ProductsRepository>(context)),
           lazy: true,
+        ),
+        BlocProvider(
+          create: (context) => CartBloc(
+            cartRepository: RepositoryProvider.of<CartRepository>(context),
+          )..add(CartStarted()),
+          lazy: false, // Not lazy so cart loads immediately when app starts
         ),
       ],
       child: app,
