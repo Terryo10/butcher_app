@@ -41,6 +41,10 @@ class PaymentCardTile extends StatelessWidget {
                 width: isActive ? 1 : 0.2,
               ),
             ),
+            constraints: const BoxConstraints(
+              minWidth: 100,
+              maxWidth: 135, // Adjust this as needed
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -51,7 +55,7 @@ class PaymentCardTile extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge
-                      ?.copyWith(color: Colors.black),
+                      ?.copyWith(color: Colors.black, fontSize: 12),
                 ),
               ],
             ),

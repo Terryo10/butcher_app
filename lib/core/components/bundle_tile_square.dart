@@ -16,17 +16,16 @@ class BundleTileSquare extends StatelessWidget {
   final Product product;
 
   bool get isWeightBased => product.pricingType == 'weight';
-  
+
   @override
   Widget build(BuildContext context) {
     final double price = product.priceAsDouble;
-    
+
     return Material(
       color: AppColors.scaffoldBackground,
       borderRadius: AppDefaults.borderRadius,
       child: InkWell(
         onTap: () {
-          // Using AutoRoute for navigation
           context.router.push(ProductDetailsRoute(product: product));
         },
         borderRadius: AppDefaults.borderRadius,
@@ -42,11 +41,15 @@ class BundleTileSquare extends StatelessWidget {
             children: [
               // Product Image
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: AspectRatio(
                   aspectRatio: 1 / 1,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      context.router
+                          .push(ProductDetailsRoute(product: product));
+                    },
                     child: NetworkImageWithLoader(
                       AppUrls.getProductImage(product.image ?? ''),
                       fit: BoxFit.contain,
@@ -54,7 +57,7 @@ class BundleTileSquare extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               // Product Name and Unit Info
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +87,7 @@ class BundleTileSquare extends StatelessWidget {
                     ),
                 ],
               ),
-              
+
               // Price Row
               Row(
                 children: [
@@ -110,14 +113,15 @@ class BundleTileSquare extends StatelessWidget {
                   const Spacer(),
                 ],
               ),
-              
+
               // Weight-based badge
               if (isWeightBased)
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 4),
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: Colors.green.withValues(alpha:0.1),
+                    color: Colors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
@@ -129,7 +133,7 @@ class BundleTileSquare extends StatelessWidget {
                     ),
                   ),
                 ),
-                
+
               const SizedBox(height: 1),
             ],
           ),

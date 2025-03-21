@@ -8,24 +8,92 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i12;
-import 'package:butcher_app/onboarding/onboarding_page.dart' as _i8;
-import 'package:butcher_app/ui/auth/forget_password_page.dart' as _i1;
-import 'package:butcher_app/ui/auth/intro_login_page.dart' as _i3;
-import 'package:butcher_app/ui/auth/login_or_signup_page.dart' as _i5;
-import 'package:butcher_app/ui/auth/login_page.dart' as _i6;
-import 'package:butcher_app/ui/auth/number_verification_page.dart' as _i7;
-import 'package:butcher_app/ui/auth/password_reset_page.dart' as _i9;
-import 'package:butcher_app/ui/auth/sign_up_page.dart' as _i11;
-import 'package:butcher_app/ui/home_page.dart' as _i2;
-import 'package:butcher_app/ui/landing/landing_page.dart' as _i4;
-import 'package:butcher_app/core/components/product_details_page.dart' as _i10;
-import 'package:flutter/material.dart' as _i13;
+import 'package:auto_route/auto_route.dart' as _i14;
+import 'package:butcher_app/core/components/product_details_page.dart' as _i12;
+import 'package:butcher_app/onboarding/onboarding_page.dart' as _i10;
+import 'package:butcher_app/ui/auth/forget_password_page.dart' as _i3;
+import 'package:butcher_app/ui/auth/intro_login_page.dart' as _i5;
+import 'package:butcher_app/ui/auth/login_or_signup_page.dart' as _i7;
+import 'package:butcher_app/ui/auth/login_page.dart' as _i8;
+import 'package:butcher_app/ui/auth/number_verification_page.dart' as _i9;
+import 'package:butcher_app/ui/auth/password_reset_page.dart' as _i11;
+import 'package:butcher_app/ui/auth/sign_up_page.dart' as _i13;
+import 'package:butcher_app/ui/cart/cart_page.dart' as _i1;
+import 'package:butcher_app/ui/cart/checkout_page.dart' as _i2;
+import 'package:butcher_app/ui/home_page.dart' as _i4;
+import 'package:butcher_app/ui/landing/landing_page.dart' as _i6;
+import 'package:flutter/material.dart' as _i15;
 
 /// generated route for
-/// [_i1.ForgotPasswordPage]
-class ForgotPasswordRoute extends _i12.PageRouteInfo<void> {
-  const ForgotPasswordRoute({List<_i12.PageRouteInfo>? children})
+/// [_i1.CartPage]
+class CartRoute extends _i14.PageRouteInfo<CartRouteArgs> {
+  CartRoute({
+    _i15.Key? key,
+    bool isHomePage = false,
+    List<_i14.PageRouteInfo>? children,
+  }) : super(
+          CartRoute.name,
+          args: CartRouteArgs(
+            key: key,
+            isHomePage: isHomePage,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CartRoute';
+
+  static _i14.PageInfo page = _i14.PageInfo(
+    name,
+    builder: (data) {
+      final args =
+          data.argsAs<CartRouteArgs>(orElse: () => const CartRouteArgs());
+      return _i1.CartPage(
+        key: args.key,
+        isHomePage: args.isHomePage,
+      );
+    },
+  );
+}
+
+class CartRouteArgs {
+  const CartRouteArgs({
+    this.key,
+    this.isHomePage = false,
+  });
+
+  final _i15.Key? key;
+
+  final bool isHomePage;
+
+  @override
+  String toString() {
+    return 'CartRouteArgs{key: $key, isHomePage: $isHomePage}';
+  }
+}
+
+/// generated route for
+/// [_i2.CheckoutPage]
+class CheckoutRoute extends _i14.PageRouteInfo<void> {
+  const CheckoutRoute({List<_i14.PageRouteInfo>? children})
+      : super(
+          CheckoutRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CheckoutRoute';
+
+  static _i14.PageInfo page = _i14.PageInfo(
+    name,
+    builder: (data) {
+      return const _i2.CheckoutPage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i3.ForgotPasswordPage]
+class ForgotPasswordRoute extends _i14.PageRouteInfo<void> {
+  const ForgotPasswordRoute({List<_i14.PageRouteInfo>? children})
       : super(
           ForgotPasswordRoute.name,
           initialChildren: children,
@@ -33,18 +101,18 @@ class ForgotPasswordRoute extends _i12.PageRouteInfo<void> {
 
   static const String name = 'ForgotPasswordRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i1.ForgotPasswordPage();
+      return const _i3.ForgotPasswordPage();
     },
   );
 }
 
 /// generated route for
-/// [_i2.HomePage]
-class HomeRoute extends _i12.PageRouteInfo<void> {
-  const HomeRoute({List<_i12.PageRouteInfo>? children})
+/// [_i4.HomePage]
+class HomeRoute extends _i14.PageRouteInfo<void> {
+  const HomeRoute({List<_i14.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -52,18 +120,18 @@ class HomeRoute extends _i12.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i2.HomePage();
+      return const _i4.HomePage();
     },
   );
 }
 
 /// generated route for
-/// [_i3.IntroLoginPage]
-class IntroLoginRoute extends _i12.PageRouteInfo<void> {
-  const IntroLoginRoute({List<_i12.PageRouteInfo>? children})
+/// [_i5.IntroLoginPage]
+class IntroLoginRoute extends _i14.PageRouteInfo<void> {
+  const IntroLoginRoute({List<_i14.PageRouteInfo>? children})
       : super(
           IntroLoginRoute.name,
           initialChildren: children,
@@ -71,18 +139,18 @@ class IntroLoginRoute extends _i12.PageRouteInfo<void> {
 
   static const String name = 'IntroLoginRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i3.IntroLoginPage();
+      return const _i5.IntroLoginPage();
     },
   );
 }
 
 /// generated route for
-/// [_i4.LandingPage]
-class LandingRoute extends _i12.PageRouteInfo<void> {
-  const LandingRoute({List<_i12.PageRouteInfo>? children})
+/// [_i6.LandingPage]
+class LandingRoute extends _i14.PageRouteInfo<void> {
+  const LandingRoute({List<_i14.PageRouteInfo>? children})
       : super(
           LandingRoute.name,
           initialChildren: children,
@@ -90,18 +158,18 @@ class LandingRoute extends _i12.PageRouteInfo<void> {
 
   static const String name = 'LandingRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i4.LandingPage();
+      return const _i6.LandingPage();
     },
   );
 }
 
 /// generated route for
-/// [_i5.LoginOrSignUpPage]
-class LoginOrSignUpRoute extends _i12.PageRouteInfo<void> {
-  const LoginOrSignUpRoute({List<_i12.PageRouteInfo>? children})
+/// [_i7.LoginOrSignUpPage]
+class LoginOrSignUpRoute extends _i14.PageRouteInfo<void> {
+  const LoginOrSignUpRoute({List<_i14.PageRouteInfo>? children})
       : super(
           LoginOrSignUpRoute.name,
           initialChildren: children,
@@ -109,18 +177,18 @@ class LoginOrSignUpRoute extends _i12.PageRouteInfo<void> {
 
   static const String name = 'LoginOrSignUpRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i5.LoginOrSignUpPage();
+      return const _i7.LoginOrSignUpPage();
     },
   );
 }
 
 /// generated route for
-/// [_i6.LoginPage]
-class LoginRoute extends _i12.PageRouteInfo<void> {
-  const LoginRoute({List<_i12.PageRouteInfo>? children})
+/// [_i8.LoginPage]
+class LoginRoute extends _i14.PageRouteInfo<void> {
+  const LoginRoute({List<_i14.PageRouteInfo>? children})
       : super(
           LoginRoute.name,
           initialChildren: children,
@@ -128,18 +196,18 @@ class LoginRoute extends _i12.PageRouteInfo<void> {
 
   static const String name = 'LoginRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i6.LoginPage();
+      return const _i8.LoginPage();
     },
   );
 }
 
 /// generated route for
-/// [_i7.NumberVerificationPage]
-class NumberVerificationRoute extends _i12.PageRouteInfo<void> {
-  const NumberVerificationRoute({List<_i12.PageRouteInfo>? children})
+/// [_i9.NumberVerificationPage]
+class NumberVerificationRoute extends _i14.PageRouteInfo<void> {
+  const NumberVerificationRoute({List<_i14.PageRouteInfo>? children})
       : super(
           NumberVerificationRoute.name,
           initialChildren: children,
@@ -147,18 +215,18 @@ class NumberVerificationRoute extends _i12.PageRouteInfo<void> {
 
   static const String name = 'NumberVerificationRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i7.NumberVerificationPage();
+      return const _i9.NumberVerificationPage();
     },
   );
 }
 
 /// generated route for
-/// [_i8.OnboardingPage]
-class OnboardingRoute extends _i12.PageRouteInfo<void> {
-  const OnboardingRoute({List<_i12.PageRouteInfo>? children})
+/// [_i10.OnboardingPage]
+class OnboardingRoute extends _i14.PageRouteInfo<void> {
+  const OnboardingRoute({List<_i14.PageRouteInfo>? children})
       : super(
           OnboardingRoute.name,
           initialChildren: children,
@@ -166,18 +234,18 @@ class OnboardingRoute extends _i12.PageRouteInfo<void> {
 
   static const String name = 'OnboardingRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i8.OnboardingPage();
+      return const _i10.OnboardingPage();
     },
   );
 }
 
 /// generated route for
-/// [_i9.PasswordResetPage]
-class PasswordResetRoute extends _i12.PageRouteInfo<void> {
-  const PasswordResetRoute({List<_i12.PageRouteInfo>? children})
+/// [_i11.PasswordResetPage]
+class PasswordResetRoute extends _i14.PageRouteInfo<void> {
+  const PasswordResetRoute({List<_i14.PageRouteInfo>? children})
       : super(
           PasswordResetRoute.name,
           initialChildren: children,
@@ -185,21 +253,21 @@ class PasswordResetRoute extends _i12.PageRouteInfo<void> {
 
   static const String name = 'PasswordResetRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i9.PasswordResetPage();
+      return const _i11.PasswordResetPage();
     },
   );
 }
 
 /// generated route for
-/// [_i10.ProductDetailsPage]
-class ProductDetailsRoute extends _i12.PageRouteInfo<ProductDetailsRouteArgs> {
+/// [_i12.ProductDetailsPage]
+class ProductDetailsRoute extends _i14.PageRouteInfo<ProductDetailsRouteArgs> {
   ProductDetailsRoute({
-    _i13.Key? key,
+    _i15.Key? key,
     required dynamic product,
-    List<_i12.PageRouteInfo>? children,
+    List<_i14.PageRouteInfo>? children,
   }) : super(
           ProductDetailsRoute.name,
           args: ProductDetailsRouteArgs(
@@ -211,11 +279,11 @@ class ProductDetailsRoute extends _i12.PageRouteInfo<ProductDetailsRouteArgs> {
 
   static const String name = 'ProductDetailsRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<ProductDetailsRouteArgs>();
-      return _i10.ProductDetailsPage(
+      return _i12.ProductDetailsPage(
         key: args.key,
         product: args.product,
       );
@@ -229,7 +297,7 @@ class ProductDetailsRouteArgs {
     required this.product,
   });
 
-  final _i13.Key? key;
+  final _i15.Key? key;
 
   final dynamic product;
 
@@ -240,9 +308,9 @@ class ProductDetailsRouteArgs {
 }
 
 /// generated route for
-/// [_i11.SignUpPage]
-class SignUpRoute extends _i12.PageRouteInfo<void> {
-  const SignUpRoute({List<_i12.PageRouteInfo>? children})
+/// [_i13.SignUpPage]
+class SignUpRoute extends _i14.PageRouteInfo<void> {
+  const SignUpRoute({List<_i14.PageRouteInfo>? children})
       : super(
           SignUpRoute.name,
           initialChildren: children,
@@ -250,10 +318,10 @@ class SignUpRoute extends _i12.PageRouteInfo<void> {
 
   static const String name = 'SignUpRoute';
 
-  static _i12.PageInfo page = _i12.PageInfo(
+  static _i14.PageInfo page = _i14.PageInfo(
     name,
     builder: (data) {
-      return const _i11.SignUpPage();
+      return const _i13.SignUpPage();
     },
   );
 }

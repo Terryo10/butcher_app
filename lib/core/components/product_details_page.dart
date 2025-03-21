@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:butcher_app/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -78,8 +79,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     IconButton(
                       icon: const Icon(Icons.shopping_cart),
                       onPressed: () {
-                        // Navigate to cart page
-                        context.router.pushNamed('/cart');
+                        context.navigateTo(CartRoute());
                       },
                     ),
                     Positioned(
@@ -112,7 +112,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 icon: const Icon(Icons.shopping_cart_outlined),
                 onPressed: () {
                   // Navigate to cart page
-                  context.router.pushNamed('/cart');
+                  context.navigateTo(CartRoute());
                 },
               );
             },
@@ -131,7 +131,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     action: SnackBarAction(
                       label: 'VIEW CART',
                       onPressed: () {
-                        context.router.pushNamed('/cart');
+                        context.navigateTo(CartRoute());
                       },
                     ),
                   ),
@@ -190,8 +190,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     if (isWeightBased && widget.product.unit != null)
                       Chip(
                         label: Text('Sold by ${widget.product.unit}'),
-                        backgroundColor:
-                            Theme.of(context).primaryColor.withValues(alpha:0.1),
+                        backgroundColor: Theme.of(context)
+                            .primaryColor
+                            .withValues(alpha: 0.1),
                       ),
 
                     const SizedBox(height: 8),

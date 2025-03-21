@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:butcher_app/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,6 +12,7 @@ import 'components/items_totals_price.dart';
 import 'components/single_cart_item_tile.dart';
 import 'components/empty_cart.dart';
 
+@RoutePage()
 class CartPage extends StatelessWidget {
   const CartPage({
     super.key,
@@ -53,7 +55,7 @@ class CartPage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
-            
+
             if (state is CartError) {
               return Center(
                 child: Padding(
@@ -79,46 +81,46 @@ class CartPage extends StatelessWidget {
                 ),
               );
             }
-            
+
             if (state is CartLoaded) {
               if (state.cart.items.isEmpty) {
                 return const EmptyCart();
               }
-              
+
               return SingleChildScrollView(
                 child: Column(
                   children: [
                     // Cart items
                     ...state.cart.items.map((item) => SingleCartItemTile(
-                      cartItem: item,
-                    )),
-                    
+                          cartItem: item,
+                        )),
+
                     // Coupon field
                     CouponCodeField(
                       appliedCoupon: state.cart.couponCode,
                       onApply: (couponCode) {
                         context.read<CartBloc>().add(
-                          ApplyCoupon(couponCode: couponCode),
-                        );
+                              ApplyCoupon(couponCode: couponCode),
+                            );
                       },
                       onRemove: () {
                         context.read<CartBloc>().add(RemoveCoupon());
                       },
                     ),
-                    
+
                     // Totals and summary
                     ItemTotalsAndPrice(cart: state.cart),
-                    
+
                     // Checkout button
                     SizedBox(
                       width: double.infinity,
                       child: Padding(
                         padding: const EdgeInsets.all(AppDefaults.padding),
                         child: ElevatedButton(
-                          onPressed: state.cart.items.isEmpty 
+                          onPressed: state.cart.items.isEmpty
                               ? null
                               : () {
-                                  context.router.pushNamed('/checkout');
+                                  context.navigateTo(const CheckoutRoute());
                                 },
                           child: const Text('Checkout'),
                         ),
@@ -128,7 +130,7 @@ class CartPage extends StatelessWidget {
                 ),
               );
             }
-            
+
             // Initial state or unexpected state
             return const Center(
               child: CircularProgressIndicator(),
@@ -138,13 +140,14 @@ class CartPage extends StatelessWidget {
       ),
     );
   }
-  
+
   void _showClearCartConfirmation(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Clear Cart'),
-        content: const Text('Are you sure you want to remove all items from your cart?'),
+        content: const Text(
+            'Are you sure you want to remove all items from your cart?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),

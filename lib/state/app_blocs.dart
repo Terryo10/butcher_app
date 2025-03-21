@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../repositories/cart_repository/cart_repository.dart';
+import '../repositories/checkout_repository/checkout_repository.dart';
 import '../repositories/products_repository/products_repository.dart';
 import 'bloc/auth_bloc/auth_bloc.dart';
 import 'bloc/cache_bloc/cache_bloc.dart';
+import 'bloc/checkout_bloc/checkout_bloc.dart';
 import 'bloc/search_bloc/search_bloc.dart';
 
 class AppBlocs extends StatelessWidget {
@@ -54,6 +56,14 @@ class AppBlocs extends StatelessWidget {
           )..add(CartStarted()),
           lazy: false, // Not lazy so cart loads immediately when app starts
         ),
+         BlocProvider(
+          create: (context) => CheckoutBloc(
+            checkoutRepository: RepositoryProvider.of<CheckoutRepository>(context),
+            cartRepository: RepositoryProvider.of<CartRepository>(context),
+          ),
+          lazy: true, // Lazy is fine since it's only needed during checkout
+        ),
+
       ],
       child: app,
     );

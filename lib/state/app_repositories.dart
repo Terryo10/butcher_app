@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../repositories/auth_repository/auth_repository.dart';
 import '../repositories/cache_repository/cache_repository.dart';
+import '../repositories/checkout_repository/checkout_repository.dart';
 import '../repositories/products_repository/products_provider.dart';
 import '../repositories/products_repository/products_repository.dart';
 
@@ -43,7 +44,9 @@ class AppRepositories extends StatelessWidget {
         RepositoryProvider(
           create: (context) => CartRepository(secureStorage: storage),
         ),
-
+        RepositoryProvider<CheckoutRepository>(
+          create: (context) => CheckoutRepository(secureStorage: storage),
+        ),
       ],
       child: appBlocs,
     );
