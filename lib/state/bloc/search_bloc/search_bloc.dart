@@ -22,8 +22,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           RangeValues? selectedPriceRanges;
 
           if (currentState is SearchProductSelectFiltersState) {
-            print('search productFilter emitted');
-            print('search ${currentState.selectedOrder}');
+           
             selectedOrder = currentState.selectedOrder;
             selectedCategory = currentState.selectedCategory;
             selectedPriceRanges = currentState.selectedPriceRanges;
@@ -48,8 +47,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     on<SearchAddFiltersToProduct>(
       (event, emit) {
-        print(event.selectedOrder);
-
         emit(SearchProductSelectFiltersState(
             selectedOrder: event.selectedOrder,
             selectedCategory: event.selectedCategory,

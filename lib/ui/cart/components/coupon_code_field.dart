@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 
-
 class CouponCodeField extends StatefulWidget {
   const CouponCodeField({
     super.key,
@@ -79,7 +78,7 @@ class _CouponCodeFieldState extends State<CouponCodeField> {
                   style: ElevatedButton.styleFrom(
                     foregroundColor: isFilled ? null : AppColors.placeholder,
                     backgroundColor:
-                        isFilled ? null : Colors.grey.withOpacity(0.3),
+                        isFilled ? null : Colors.grey.withValues(alpha: 0.3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),

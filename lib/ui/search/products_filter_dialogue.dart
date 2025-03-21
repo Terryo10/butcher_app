@@ -110,71 +110,11 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
   }
 }
 
-class _RatingStar extends StatelessWidget {
-  const _RatingStar({
-    required this.totalStarsSelected,
-    required this.onStarSelect,
-  });
-
-  final int totalStarsSelected;
-  final void Function(int) onStarSelect;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(AppDefaults.padding),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Rating Star',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: List.generate(
-              /// You cannot add more than 5 star or less than 0 star
-              5,
-              (index) {
-                if (index < totalStarsSelected) {
-                  return InkWell(
-                    onTap: () => onStarSelect(index + 1),
-                    child: const Icon(
-                      Icons.star_rounded,
-                      color: Color(0xFFFFC107),
-                      size: 32,
-                    ),
-                  );
-                } else {
-                  return InkWell(
-                    onTap: () => onStarSelect(index + 1),
-                    child: const Icon(
-                      Icons.star_rounded,
-                      color: Colors.grey,
-                      size: 32,
-                    ),
-                  );
-                }
-              },
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
 class _BrandSelector extends StatefulWidget {
   final int selectedIndex;
 
   final ValueChanged<String> onCategoryValueChange;
   const _BrandSelector({
-    super.key,
     required this.selectedIndex,
     required this.onCategoryValueChange,
   });
@@ -252,75 +192,12 @@ class _BrandSelectorState extends State<_BrandSelector> {
   }
 }
 
-class _CategoriesSelector extends StatelessWidget {
-  const _CategoriesSelector();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(AppDefaults.padding),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Categories',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: Wrap(
-              alignment: WrapAlignment.start,
-              runAlignment: WrapAlignment.spaceAround,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              spacing: 16,
-              runSpacing: 16,
-              children: [
-                CategoriesChip(
-                  isActive: true,
-                  label: 'Office Supplies',
-                  onPressed: () {},
-                ),
-                CategoriesChip(
-                  isActive: false,
-                  label: 'Gardening',
-                  onPressed: () {},
-                ),
-                CategoriesChip(
-                  isActive: false,
-                  label: 'Vegetables',
-                  onPressed: () {},
-                ),
-                CategoriesChip(
-                  isActive: false,
-                  label: 'Fish And Meat',
-                  onPressed: () {},
-                ),
-                CategoriesChip(
-                  isActive: false,
-                  label: 'See All',
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
 
 class _PriceRange extends StatefulWidget {
   final RangeValues currentRangeValues;
 
   final ValueChanged<RangeValues> onPriceRangeChange;
   const _PriceRange({
-    super.key,
     required this.currentRangeValues,
     required this.onPriceRangeChange,
   });
@@ -381,7 +258,6 @@ class _SortBy extends StatefulWidget {
   final String selectedOrderBy;
   final ValueChanged<String> onOrderByChanged;
   const _SortBy({
-    super.key,
     required this.selectedOrderBy,
     required this.onOrderByChanged,
   });
@@ -435,7 +311,6 @@ class _SortByState extends State<_SortBy> {
 class _FilterHeader extends StatelessWidget {
   final ValueChanged<String> onResetFieldsValues;
   const _FilterHeader({
-    super.key,
     required this.onResetFieldsValues,
   });
 
