@@ -7,7 +7,6 @@ import '../../core/components/buy_now_row_button.dart';
 import '../../core/components/price_and_quantity.dart';
 import '../../core/components/product_images_slider.dart';
 import '../../core/components/review_row_button.dart';
-import '../../models/categories/product.dart';
 
 @RoutePage()
 class ProductDetailsPage extends StatefulWidget {
