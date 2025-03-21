@@ -7,11 +7,11 @@ import '../../static/app_urls.dart';
 
 class CheckoutRepository {
   final FlutterSecureStorage secureStorage;
-  
+
   CheckoutRepository({
     required this.secureStorage,
   });
-  
+
   // Get user addresses
   Future<List<Address>> getAddresses() async {
     try {
@@ -19,7 +19,7 @@ class CheckoutRepository {
         Uri.parse(AppUrls.addresses),
         headers: await _getHeaders(),
       );
-      
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         return (data['addresses'] as List)
@@ -33,7 +33,7 @@ class CheckoutRepository {
       return [];
     }
   }
-  
+
   // Add a new address
   Future<Address> addAddress(Address address) async {
     try {
@@ -42,7 +42,7 @@ class CheckoutRepository {
         headers: await _getHeaders(),
         body: jsonEncode(address.toJson()),
       );
-      
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
         return Address.fromJson(data['address']);
@@ -53,7 +53,7 @@ class CheckoutRepository {
       throw Exception('Failed to add address: $e');
     }
   }
-  
+
   // Get saved payment methods
   Future<List<PaymentMethod>> getSavedPaymentMethods() async {
     try {
@@ -61,21 +61,22 @@ class CheckoutRepository {
         Uri.parse(AppUrls.paymentMethods),
         headers: await _getHeaders(),
       );
-      
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         return (data['payment_methods'] as List)
             .map((method) => PaymentMethod.fromJson(method))
             .toList();
       } else {
-        throw Exception('Failed to load payment methods: ${response.statusCode}');
+        throw Exception(
+            'Failed to load payment methods: ${response.statusCode}');
       }
     } catch (e) {
       // If offline or error, return empty list
       return [];
     }
   }
-  
+
   // Place order
   Future<OrderResult> placeOrder({
     required Cart cart,
@@ -90,42 +91,44 @@ class CheckoutRepository {
     final Map<String, dynamic> orderData = {
       'address_id': addressId,
       'payment_type': paymentType.toString().split('.').last,
-      'items': cart.items.map((item) => {
-        'product_id': item.productId,
-        'quantity': item.quantity.toString(),
-        'pricing_type': item.pricingType,
-        'unit': item.unit,
-      }).toList(),
+      'items': cart.items
+          .map((item) => {
+                'product_id': item.productId,
+                'quantity': item.quantity.toString(),
+                'pricing_type': item.pricingType,
+                'unit': item.unit,
+              })
+          .toList(),
     };
-    
+
     // Add optional note if provided
     if (notes != null && notes.isNotEmpty) {
       orderData['notes'] = notes;
     }
-    
+
     // Add coupon code if available
     if (cart.couponCode != null && cart.couponCode!.isNotEmpty) {
       orderData['coupon_code'] = cart.couponCode;
     }
-    
+
     // Add payment method ID if using a saved payment method
     if (paymentMethodId != null) {
       orderData['payment_method_id'] = paymentMethodId;
     }
-    
+
     // Add card details if provided
     if (cardDetails != null) {
       orderData['card_details'] = cardDetails.toJson();
       orderData['save_card'] = saveCard;
     }
-    
+
     try {
       final response = await http.post(
         Uri.parse(AppUrls.checkout),
         headers: await _getHeaders(),
         body: jsonEncode(orderData),
       );
-      
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         return OrderResult.fromJson(data['order']);
@@ -143,12 +146,12 @@ class CheckoutRepository {
       throw Exception('Failed to place order: $e');
     }
   }
-  
+
   // Get headers with auth token
   Future<Map<String, String>> _getHeaders() async {
     // Get token from secure storage
-    final token = await secureStorage.read(key: 'auth_token') ?? '';
-    
+    final token = await secureStorage.read(key: 'token') ?? '';
+
     return {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

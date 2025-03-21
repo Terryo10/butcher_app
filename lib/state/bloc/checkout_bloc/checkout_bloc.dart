@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:butcher_app/state/bloc/cart_bloc/cart_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../models/cart/cart_model.dart';

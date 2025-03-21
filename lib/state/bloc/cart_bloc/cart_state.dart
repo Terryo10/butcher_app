@@ -28,3 +28,16 @@ class CartError extends CartState {
   @override
   List<Object> get props => [message];
 }
+
+class SynchronizeCart extends CartEvent {
+  const SynchronizeCart();
+}
+
+class PrepareForCheckout extends CartEvent {
+  const PrepareForCheckout();
+}
+
+// Add a new state for checkout preparation
+class CheckoutPreparing extends CartState {
+  const CheckoutPreparing();
+}

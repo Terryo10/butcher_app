@@ -89,22 +89,24 @@ class CartRepository {
       if (existingItemIndex >= 0) {
         // Update existing item
         final existingItem = currentCart.items[existingItemIndex];
-        
+
         dynamic newQuantity;
         if (pricingType == 'weight' || existingItem.isWeightBased) {
           // For weight-based products, add as double
-          newQuantity = existingItem.quantityAsDouble + 
-              (quantity is double ? quantity : double.parse(quantity.toString()));
+          newQuantity = existingItem.quantityAsDouble +
+              (quantity is double
+                  ? quantity
+                  : double.parse(quantity.toString()));
         } else {
           // For fixed-price products, add as int
-          newQuantity = (existingItem.quantity as int) + 
+          newQuantity = (existingItem.quantity as int) +
               (quantity is int ? quantity : int.parse(quantity.toString()));
         }
-        
+
         final updatedItem = existingItem.copyWith(
           quantity: newQuantity,
           // Recalculate totalPrice
-          totalPrice: existingItem.price * 
+          totalPrice: existingItem.price *
               (newQuantity is double ? newQuantity : newQuantity.toDouble()),
         );
 
@@ -112,9 +114,9 @@ class CartRepository {
       } else if (name != null && price != null && image != null) {
         // Only add new item if we have the required data
         // Calculate total price based on pricing type
-        final double totalPrice = price * 
+        final double totalPrice = price *
             (quantity is double ? quantity : double.parse(quantity.toString()));
-        
+
         updatedItems.add(CartItem(
           id: DateTime.now().millisecondsSinceEpoch,
           name: name,
@@ -173,7 +175,7 @@ class CartRepository {
       // Fallback to local cart update if API fails
       final currentCart = await getLocalCart() ?? const Cart();
 
-      if ((quantity is int && quantity <= 0) || 
+      if ((quantity is int && quantity <= 0) ||
           (quantity is double && quantity <= 0)) {
         return removeFromCart(cartItemId);
       }
@@ -189,16 +191,16 @@ class CartRepository {
       // Create updated items list with correct type
       final updatedItems = List<CartItem>.from(currentCart.items);
       final item = updatedItems[itemIndex];
-      
+
       // Calculate new total price
-      final double totalPrice = item.price * 
+      final double totalPrice = item.price *
           (quantity is double ? quantity : double.parse(quantity.toString()));
-      
+
       final updatedItem = item.copyWith(
         quantity: quantity,
         totalPrice: totalPrice,
       );
-      
+
       updatedItems[itemIndex] = updatedItem;
 
       // Calculate new total amount
@@ -241,9 +243,8 @@ class CartRepository {
       final currentCart = await getLocalCart() ?? const Cart();
 
       // Remove the item and ensure correct type
-      final updatedItems = currentCart.items
-          .where((item) => item.id != cartItemId)
-          .toList();
+      final updatedItems =
+          currentCart.items.where((item) => item.id != cartItemId).toList();
 
       // Calculate new total amount
       final totalAmount = updatedItems.fold(
@@ -342,7 +343,7 @@ class CartRepository {
   // Get headers with auth token
   Future<Map<String, String>> _getHeaders() async {
     // Get token from secure storage
-    final token = await secureStorage.read(key: 'auth_token') ?? '';
+    final token = await secureStorage.read(key: 'token') ?? '';
 
     return {
       'Content-Type': 'application/json',

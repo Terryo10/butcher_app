@@ -120,6 +120,9 @@ class CartPage extends StatelessWidget {
                           onPressed: state.cart.items.isEmpty
                               ? null
                               : () {
+                                  context
+                                      .read<CartBloc>()
+                                      .add(const PrepareForCheckout());
                                   context.navigateTo(const CheckoutRoute());
                                 },
                           child: const Text('Checkout'),

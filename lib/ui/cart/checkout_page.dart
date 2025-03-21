@@ -33,7 +33,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     super.initState();
     context.read<CheckoutBloc>().add(CheckoutStarted());
   }
-  
+
   @override
   void dispose() {
     _cardNameController.dispose();
@@ -62,14 +62,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
               const SnackBar(content: Text('Order placed successfully!')),
             );
             // Navigate to order success page
-            context.router.navigateNamed('/order-success/${state.orderResult.id}');
+            context.router
+                .navigateNamed('/order-success/${state.orderResult.id}');
           }
         },
         builder: (context, state) {
           if (state is CheckoutLoading || state is CheckoutProcessing) {
             return const Center(child: CircularProgressIndicator());
           }
-          
+
           if (state is CheckoutProcessingAction) {
             return Center(
               child: Column(
@@ -82,7 +83,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
             );
           }
-          
+
           if (state is CheckoutLoaded) {
             return SingleChildScrollView(
               child: Column(
@@ -91,7 +92,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     addresses: state.addresses,
                     selectedAddress: state.selectedAddress,
                     onAddressSelected: (address) {
-                      context.read<CheckoutBloc>().add(AddressSelected(address));
+                      context
+                          .read<CheckoutBloc>()
+                          .add(AddressSelected(address));
                     },
                     onAddNewAddress: () {
                       // Show dialog to add new address
@@ -104,11 +107,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     selectedPaymentMethod: state.selectedPaymentMethod,
                     onPaymentMethodSelected: (paymentMethod, paymentType) {
                       context.read<CheckoutBloc>().add(
-                        PaymentMethodSelected(
-                          paymentMethod: paymentMethod,
-                          paymentType: paymentType,
-                        ),
-                      );
+                            PaymentMethodSelected(
+                              paymentMethod: paymentMethod,
+                              paymentType: paymentType,
+                            ),
+                          );
                     },
                   ),
                   if (state.paymentType == PaymentType.card &&
@@ -134,7 +137,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           !_validateCardForm()) {
                         return;
                       }
-                      
+
                       CardDetails? cardDetails;
                       if (state.paymentType == PaymentType.card &&
                           state.selectedPaymentMethod == null) {
@@ -145,13 +148,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           cvv: _cvvController.text,
                         );
                       }
-                      
+
                       context.read<CheckoutBloc>().add(
-                        PlaceOrder(
-                          cardDetails: cardDetails,
-                          saveCard: _saveCard,
-                        ),
-                      );
+                            PlaceOrder(
+                              cardDetails: cardDetails,
+                              saveCard: _saveCard,
+                            ),
+                          );
                     },
                   ),
                   const SizedBox(height: 16),
@@ -159,7 +162,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
             );
           }
-          
+
           return const Center(
             child: Text('Something went wrong. Please try again later.'),
           );
@@ -167,12 +170,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
       ),
     );
   }
-  
+
   bool _validateCardForm() {
     if (_cardFormKey.currentState == null) return false;
     return _cardFormKey.currentState!.validate();
   }
-  
+
   void _showAddAddressDialog(BuildContext context) {
     // This is a simple version - in a real app, you would create a more detailed form
     TextEditingController labelController = TextEditingController();
@@ -183,7 +186,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     TextEditingController stateController = TextEditingController();
     TextEditingController zipController = TextEditingController();
     String country = 'United States';
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -194,7 +197,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
             children: [
               TextField(
                 controller: labelController,
-                decoration: const InputDecoration(labelText: 'Label (e.g. Home, Office)'),
+                decoration: const InputDecoration(
+                    labelText: 'Label (e.g. Home, Office)'),
               ),
               TextField(
                 controller: nameController,
@@ -207,7 +211,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
               TextField(
                 controller: addressLine1Controller,
-                decoration: const InputDecoration(labelText: 'Address Line 1'),
+                decoration: const InputDecoration(labelText: 'Address'),
               ),
               TextField(
                 controller: cityController,
@@ -245,7 +249,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 );
                 return;
               }
-              
+
               // Create new address model
               final newAddress = Address(
                 id: -1, // Temporary ID, will be replaced by server
@@ -258,10 +262,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 postalCode: zipController.text,
                 country: country,
               );
-              
+
               // Add new address
               context.read<CheckoutBloc>().add(AddNewAddress(newAddress));
-              
+
               Navigator.pop(context);
             },
             child: const Text('Save'),

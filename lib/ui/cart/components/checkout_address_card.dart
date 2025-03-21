@@ -4,7 +4,6 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../core/components/app_radio.dart';
 
-
 class AddressCard extends StatelessWidget {
   const AddressCard({
     super.key,
@@ -50,22 +49,30 @@ class AddressCard extends StatelessWidget {
               children: [
                 AppRadio(isActive: isActive),
                 const SizedBox(width: 16),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(phoneNumber),
-                    const SizedBox(height: 8),
-                    Text(address)
-                  ],
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        label,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(phoneNumber),
+                      const SizedBox(height: 8),
+                      Text(
+                        address,
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                        softWrap: true,
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
