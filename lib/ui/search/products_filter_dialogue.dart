@@ -32,6 +32,14 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
     });
   }
 
+  void resetAllFiedsData(String text) {
+    setState(() {
+      currentRangeValues = const RangeValues(0, 80);
+      selectedIndex = 0;
+      selectedOrderBy = 'Desc';
+    });
+  }
+
   void updateCategory(String cat) {
     setState(() {
       selectedCategory = cat;
@@ -55,7 +63,9 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
               ),
               margin: const EdgeInsets.all(8),
             ),
-            const _FilterHeader(),
+            _FilterHeader(
+              onResetFieldsValues: resetAllFiedsData,
+            ),
             _SortBy(
               selectedOrderBy: selectedOrderBy,
               onOrderByChanged: updateOrderBy,
@@ -84,7 +94,7 @@ class _ProductFiltersDialogState extends State<ProductFiltersDialog> {
                     Navigator.of(context).pop();
                     BlocProvider.of<SearchBloc>(context).add(
                         SearchAddFiltersToProduct(
-                            selectedCategory: selectedIndex.toString(),
+                            selectedCategory: selectedCategory,
                             selectedOrder: selectedOrderBy,
                             selectedPriceRanges: currentRangeValues));
                   },
@@ -174,6 +184,8 @@ class _BrandSelector extends StatefulWidget {
 }
 
 class _BrandSelectorState extends State<_BrandSelector> {
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -202,14 +214,32 @@ class _BrandSelectorState extends State<_BrandSelector> {
                     runSpacing: 16,
                     children: List.generate(state.categories.length, (index) {
                       return CategoriesChip(
-                        isActive: widget.selectedIndex == index,
+                        isActive: selectedIndex == index,
                         label: state.categories[index].name ?? '',
                         onPressed: () {
+                          setState(() {
+                            selectedIndex = index;
+                          });
                           widget.onCategoryValueChange(index.toString());
                         },
                       );
                     }),
                   ),
+                );
+              } else if (state is CategoriesErrorState) {
+                return CategoriesChip(
+                  isActive: true,
+                  label: 'Retry Fetching Categories',
+                  onPressed: () {
+                    BlocProvider.of<CategoriesBloc>(context)
+                        .add(GetCategories());
+                  },
+                );
+              } else if (state is CategoriesLoadingState) {
+                return CategoriesChip(
+                  isActive: true,
+                  label: 'fetching data please wait...',
+                  onPressed: () {},
                 );
               }
 
@@ -403,7 +433,11 @@ class _SortByState extends State<_SortBy> {
 }
 
 class _FilterHeader extends StatelessWidget {
-  const _FilterHeader();
+  final ValueChanged<String> onResetFieldsValues;
+  const _FilterHeader({
+    super.key,
+    required this.onResetFieldsValues,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -441,7 +475,9 @@ class _FilterHeader extends StatelessWidget {
         SizedBox(
           width: 56,
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              onResetFieldsValues('sds');
+            },
             child: Text(
               'Reset',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(

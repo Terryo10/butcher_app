@@ -133,6 +133,7 @@ class ProductSearchDatum {
   String? price;
   int? stock;
   String? image;
+  List<String>? images;
   String? description;
   int? subcategoryId;
   DateTime? createdAt;
@@ -144,6 +145,7 @@ class ProductSearchDatum {
     this.price,
     this.stock,
     this.image,
+    this.images,
     this.description,
     this.subcategoryId,
     this.createdAt,
@@ -152,20 +154,22 @@ class ProductSearchDatum {
 
   factory ProductSearchDatum.fromMap(Map<String, dynamic> json) =>
       ProductSearchDatum(
-        id: json["id"],
-        name: json["name"],
-        price: json["price"],
-        stock: json["stock"],
-        image: json["image"],
-        description: json["description"],
-        subcategoryId: json["subcategory_id"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-      );
+          id: json["id"],
+          name: json["name"],
+          price: json["price"],
+          stock: json["stock"],
+          image: json["image"],
+          description: json["description"],
+          subcategoryId: json["subcategory_id"],
+          createdAt: json["created_at"] == null
+              ? null
+              : DateTime.parse(json["created_at"]),
+          updatedAt: json["updated_at"] == null
+              ? null
+              : DateTime.parse(json["updated_at"]),
+          images: json["images"] == null
+              ? []
+              : List<String>.from(json["images"]!.map((x) => x)));
 
   Map<String, dynamic> toMap() => {
         "id": id,
@@ -173,6 +177,7 @@ class ProductSearchDatum {
         "price": price,
         "stock": stock,
         "image": image,
+        "images": images,
         "description": description,
         "subcategory_id": subcategoryId,
         "created_at": createdAt?.toIso8601String(),

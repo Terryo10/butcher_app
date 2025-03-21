@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/app_defaults.dart';
 import '../../models/categories/category_datum.dart';
 import '../../themes/styles.dart';
+import 'components/categories_chip.dart';
 
 class CategorySlider extends StatefulWidget {
   const CategorySlider({super.key});
@@ -23,7 +24,7 @@ class _CategorySliderState extends State<CategorySlider> {
         if (state is CategoriesLoadingState) {
           //SHIMMER HERE
           return const SliverToBoxAdapter(
-            child: SizedBox(),
+            child: SizedBox(child: Text('Loaind data please wait...')),
           );
         } else if (state is CategoriesLoadedState) {
           return SliverPadding(
@@ -31,6 +32,16 @@ class _CategorySliderState extends State<CategorySlider> {
             sliver: SliverToBoxAdapter(
               child: BlocBuilder<CategoriesBloc, CategoriesState>(
                 builder: (context, state) {
+                  if (state is CategoriesErrorState) {
+                    return CategoriesChip(
+                      isActive: true,
+                      label: 'Retry Fetching Categories',
+                      onPressed: () {
+                        BlocProvider.of<CategoriesBloc>(context)
+                            .add(GetCategories());
+                      },
+                    );
+                  }
                   if (state is CategoriesLoadedState) {
                     return Padding(
                       padding: const EdgeInsets.only(left: 20),

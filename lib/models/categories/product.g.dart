@@ -20,6 +20,9 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
+      images: json["images"] == null
+          ? []
+          : List<String>.from(json["images"]!.map((x) => x)),
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
@@ -28,6 +31,7 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'price': instance.price,
       'stock': instance.stock,
       'image': instance.image,
+      'images': instance.images,
       'description': instance.description,
       'subcategoryId': instance.subcategoryId,
       'createdAt': instance.createdAt?.toIso8601String(),

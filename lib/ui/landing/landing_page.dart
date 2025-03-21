@@ -19,9 +19,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<CacheBloc, CacheState>(
-      listener: (context, state) {
-       
-      },
+      listener: (context, state) {},
       child: BlocBuilder<CacheBloc, CacheState>(
         builder: (context, state) {
           if (state is CacheFoundState) {
@@ -30,7 +28,7 @@ class _LandingPageState extends State<LandingPage> {
             if (state.isAppFirstLaunch) {
               return const OnboardingPage();
             } else {
-              return const LoginPage();
+              return const HomePage();
             }
           } else if (state is CacheErrorState) {
             return const SizedBox();

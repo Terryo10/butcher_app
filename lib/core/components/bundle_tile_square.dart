@@ -20,7 +20,6 @@ class BundleTileSquare extends StatelessWidget {
       borderRadius: AppDefaults.borderRadius,
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pop();
           Navigator.push(
             context,
             MaterialPageRoute(

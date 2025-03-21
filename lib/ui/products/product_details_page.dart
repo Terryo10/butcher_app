@@ -7,6 +7,7 @@ import '../../core/components/buy_now_row_button.dart';
 import '../../core/components/price_and_quantity.dart';
 import '../../core/components/product_images_slider.dart';
 import '../../core/components/review_row_button.dart';
+import '../../static/app_urls.dart';
 
 @RoutePage()
 class ProductDetailsPage extends StatefulWidget {
@@ -39,12 +40,17 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const ProductImagesSlider(
-              images: [
-                'https://i.imgur.com/3o6ons9.png',
-                'https://i.imgur.com/3o6ons9.png',
-                'https://i.imgur.com/3o6ons9.png',
-              ],
+            InkWell(
+              onTap: () {},
+              child: ProductImagesSlider(
+                images: [
+                  AppUrls.getProductImage(widget.product?.image ??
+                      ''), // Add the default image first
+                  ...?widget.product?.images?.map((img) =>
+                      AppUrls.getProductImage(
+                          img)), // Spread the existing images
+                ],
+              ),
             ),
             SizedBox(
               width: double.infinity,
@@ -75,7 +81,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 orginalPrice:
                     double.tryParse(widget.product?.price?.toString() ?? '0') ??
                         0.0,
-                quantity: widget.product?.stock ?? 0,
+                quantity: 1,
               ),
             ),
             const SizedBox(height: 8),
