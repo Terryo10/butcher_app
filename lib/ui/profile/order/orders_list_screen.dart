@@ -8,7 +8,6 @@ import '../../../constants/app_defaults.dart';
 import '../../../state/bloc/order_bloc/order_bloc.dart';
 import 'order_card.dart';
 
-
 @RoutePage()
 class OrdersListPage extends StatefulWidget {
   const OrdersListPage({super.key});
@@ -19,11 +18,21 @@ class OrdersListPage extends StatefulWidget {
 
 class _OrdersListPageState extends State<OrdersListPage> {
   String? _selectedStatus;
-  
+
   @override
   void initState() {
     super.initState();
     context.read<OrdersBloc>().add(const FetchOrders());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final focusNode = FocusNode();
+      FocusScope.of(context).requestFocus(focusNode);
+      focusNode.addListener(() {
+        if (focusNode.hasFocus) {
+          context.read<OrdersBloc>().add(FetchOrders(status: _selectedStatus));
+        }
+      });
+    });
   }
 
   @override
@@ -38,7 +47,7 @@ class _OrdersListPageState extends State<OrdersListPage> {
         children: [
           // Status filter chips
           _buildStatusFilter(),
-          
+
           // Orders list with BLoC
           Expanded(
             child: BlocBuilder<OrdersBloc, OrdersState>(
@@ -46,7 +55,7 @@ class _OrdersListPageState extends State<OrdersListPage> {
                 if (state is OrdersLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                
+
                 if (state is OrdersError) {
                   return Center(
                     child: Column(
@@ -71,7 +80,9 @@ class _OrdersListPageState extends State<OrdersListPage> {
                         const SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () {
-                            context.read<OrdersBloc>().add(FetchOrders(status: _selectedStatus));
+                            context
+                                .read<OrdersBloc>()
+                                .add(FetchOrders(status: _selectedStatus));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
@@ -83,10 +94,10 @@ class _OrdersListPageState extends State<OrdersListPage> {
                     ),
                   );
                 }
-                
+
                 if (state is OrdersLoaded) {
                   final orders = state.orders;
-                  
+
                   if (orders.isEmpty) {
                     return Center(
                       child: Column(
@@ -123,10 +134,12 @@ class _OrdersListPageState extends State<OrdersListPage> {
                       ),
                     );
                   }
-                  
+
                   return RefreshIndicator(
                     onRefresh: () async {
-                      context.read<OrdersBloc>().add(FetchOrders(status: _selectedStatus));
+                      context
+                          .read<OrdersBloc>()
+                          .add(FetchOrders(status: _selectedStatus));
                     },
                     child: ListView.builder(
                       padding: const EdgeInsets.all(AppDefaults.padding),
@@ -138,7 +151,8 @@ class _OrdersListPageState extends State<OrdersListPage> {
                           child: OrderCard(
                             order: order,
                             onTap: () {
-                              context.router.navigate(OrderDetailsRoute(orderId: order.id));
+                              context.navigateTo(
+                                  OrderDetailsRoute(orderId: order.id));
                             },
                           ),
                         );
@@ -146,7 +160,7 @@ class _OrdersListPageState extends State<OrdersListPage> {
                     ),
                   );
                 }
-                
+
                 return const Center(
                   child: Text('Start shopping to see your orders here'),
                 );
@@ -180,7 +194,7 @@ class _OrdersListPageState extends State<OrdersListPage> {
 
   Widget _buildFilterChip(String label, String? status) {
     final isSelected = _selectedStatus == status;
-    
+
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: FilterChip(

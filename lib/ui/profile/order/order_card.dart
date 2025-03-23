@@ -1,14 +1,15 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:butcher_app/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_defaults.dart';
 import '../../../models/order_model.dart';
 import 'order_status_chip.dart';
 
-
 class OrderCard extends StatelessWidget {
   final Order order;
   final VoidCallback onTap;
-  
+
   const OrderCard({
     super.key,
     required this.order,
@@ -37,33 +38,33 @@ class OrderCard extends StatelessWidget {
                   Text(
                     'Order #${order.orderNumber}',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                   ),
                   Text(
                     _formatDate(order.createdAt),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[600],
-                    ),
+                          color: Colors.grey[600],
+                        ),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              
+
               // Items summary
               Text(
                 '${order.items.length} item${order.items.length > 1 ? 's' : ''}',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey[700],
-                ),
+                      color: Colors.grey[700],
+                    ),
               ),
               const SizedBox(height: 8),
-              
+
               // Horizontal line divider
               const Divider(),
               const SizedBox(height: 8),
-              
+
               // Order status and amount
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,35 +78,33 @@ class OrderCard extends StatelessWidget {
                       ),
                       Text(
                         '\$${order.total.toStringAsFixed(2)}',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primary,
+                                ),
                       ),
                     ],
                   ),
                 ],
               ),
-              
+
               // Show tracking button for shipped orders
-              if (order.status.toLowerCase() == 'shipped' || order.status.toLowerCase() == 'delivered')
+              if (order.status.toLowerCase() == 'shipped' ||
+                  order.status.toLowerCase() == 'delivered')
                 Padding(
                   padding: const EdgeInsets.only(top: 12),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: OutlinedButton.icon(
                       onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/orders/${order.id}/tracking',
-                          arguments: order,
-                        );
+                        context.navigateTo(OrderTrackingRoute(order: order));
                       },
                       icon: const Icon(Icons.local_shipping_outlined, size: 16),
                       label: const Text('Track Order'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.primary,
-                        side: BorderSide(color: AppColors.primary),
+                        side: const BorderSide(color: AppColors.primary),
                       ),
                     ),
                   ),

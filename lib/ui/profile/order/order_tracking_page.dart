@@ -12,7 +12,7 @@ import '../../../state/bloc/order_bloc/order_bloc.dart';
 @RoutePage()
 class OrderTrackingPage extends StatefulWidget {
   final Order order;
-  
+
   const OrderTrackingPage({
     super.key,
     required this.order,
@@ -32,7 +32,6 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.cardColor,
       appBar: AppBar(
         leading: const AppBackButton(),
         title: const Text('Order Tracking'),
@@ -42,7 +41,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
           if (state is OrderTrackingLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          
+
           if (state is OrdersError) {
             return Center(
               child: Column(
@@ -67,7 +66,9 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      context.read<OrdersBloc>().add(FetchOrderTracking(widget.order.id));
+                      context
+                          .read<OrdersBloc>()
+                          .add(FetchOrderTracking(widget.order.id));
                     },
                     child: const Text('Try Again'),
                   ),
@@ -75,7 +76,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
               ),
             );
           }
-          
+
           if (state is OrderTrackingLoaded) {
             final tracking = state.tracking;
             return SingleChildScrollView(
@@ -86,7 +87,6 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                     _buildTrackingHeader(tracking),
                     const SizedBox(height: 24),
                     _buildTrackingTimeline(tracking),
-                    
                     if (tracking.status.toLowerCase() == 'shipped')
                       _buildDeliveryEstimate(tracking),
                   ],
@@ -94,7 +94,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
               ),
             );
           }
-          
+
           return const Center(child: Text('Loading tracking information...'));
         },
       ),
@@ -119,11 +119,12 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                 Text(
                   'Order #${tracking.orderNumber}',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: _getStatusColor(tracking.status).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(16),
@@ -184,7 +185,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
 
   Widget _buildTrackingTimeline(OrderTracking tracking) {
     final history = tracking.trackingHistory;
-    
+
     return Card(
       elevation: 0,
       margin: EdgeInsets.zero,
@@ -212,7 +213,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                 final event = history?[index];
                 final isFirst = index == 0;
                 final isLast = index == (history?.length ?? 0) - 1;
-                
+
                 return TimelineTile(
                   alignment: TimelineAlign.manual,
                   lineXY: 0.2,
@@ -230,7 +231,8 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                     color: Colors.grey.shade300,
                   ),
                   endChild: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -243,7 +245,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                           '${event?.location}',
+                          '${event?.location}',
                           style: TextStyle(
                             color: Colors.grey.shade700,
                             fontSize: 12,
@@ -253,9 +255,10 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                     ),
                   ),
                   startChild: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                     child: Text(
-                      _formatTrackingDate('event?.date}'),
+                      _formatTrackingDate('${event?.date}'),
                       style: TextStyle(
                         color: Colors.grey.shade700,
                         fontSize: 12,
@@ -274,7 +277,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
 
   Widget _buildDeliveryEstimate(OrderTracking tracking) {
     if (tracking.estimatedDelivery == null) return const SizedBox();
-    
+
     return Padding(
       padding: const EdgeInsets.only(top: 24),
       child: Card(
@@ -334,7 +337,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
     final month = dateTime.month.toString().padLeft(2, '0');
     final hour = dateTime.hour.toString().padLeft(2, '0');
     final minute = dateTime.minute.toString().padLeft(2, '0');
-    
+
     return '$day/$month\n$hour:$minute';
   }
 
@@ -354,10 +357,10 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
         return Colors.grey;
     }
   }
-  
+
   Color _getEventColor(String status, bool isActive) {
     if (!isActive) return Colors.grey;
-    
+
     switch (status.toLowerCase()) {
       case 'order received':
         return Colors.blue;

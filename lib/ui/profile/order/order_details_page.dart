@@ -30,6 +30,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     super.initState();
     context.read<OrdersBloc>().add(FetchOrderDetails(widget.orderId));
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +120,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
 
                     // Action buttons
                     if (order.status.toLowerCase() == 'shipped' ||
-                        order.status.toLowerCase() == 'processing')
+                        order.status.toLowerCase() == 'delivered')
                       _buildTrackingButton(order),
 
                     const SizedBox(height: 32),
