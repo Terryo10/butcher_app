@@ -144,8 +144,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             },
             child: BuyNowRow(
               onBuyButtonTap: () {
-                // First add to cart, then navigate to checkout
                 _addToCart();
+                context.read<CartBloc>().add(const PrepareForCheckout());
                 context.navigateTo(const CheckoutRoute());
               },
               onCartButtonTap: () {

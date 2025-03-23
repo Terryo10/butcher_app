@@ -114,10 +114,28 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
                         context.read<WishlistBloc>().add(
                               RemoveFromWishlist(product: widget.product),
                             );
+                        // Show removal message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                '${widget.product.name} removed from wishlist'),
+                            duration: const Duration(seconds: 2),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
                       } else {
                         context.read<WishlistBloc>().add(
                               AddToWishlist(product: widget.product),
                             );
+                        // Show addition message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                '${widget.product.name} added to wishlist'),
+                            duration: const Duration(seconds: 2),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
                       }
                     },
                     iconSize: 56,
