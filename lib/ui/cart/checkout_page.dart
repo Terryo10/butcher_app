@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:butcher_app/routes/router.gr.dart';
 import 'package:butcher_app/state/bloc/checkout_bloc/checkout_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,8 +63,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
               const SnackBar(content: Text('Order placed successfully!')),
             );
             // Navigate to order success page
-            context.router
-                .navigateNamed('/order-success/${state.orderResult.id}');
+            context.navigateTo(
+              OrderSuccessRoute(
+                orderResult: state.orderResult,
+              ),
+            );
           }
         },
         builder: (context, state) {

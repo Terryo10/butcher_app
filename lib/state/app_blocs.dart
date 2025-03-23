@@ -1,5 +1,6 @@
 import 'package:butcher_app/repositories/auth_repository/auth_repository.dart';
 import 'package:butcher_app/repositories/cache_repository/cache_repository.dart';
+import 'package:butcher_app/repositories/orders_repository/order_repository.dart';
 import 'package:butcher_app/state/bloc/cart_bloc/cart_bloc.dart';
 import 'package:butcher_app/state/bloc/categories_bloc/categories_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +13,7 @@ import '../repositories/products_repository/products_repository.dart';
 import 'bloc/auth_bloc/auth_bloc.dart';
 import 'bloc/cache_bloc/cache_bloc.dart';
 import 'bloc/checkout_bloc/checkout_bloc.dart';
+import 'bloc/order_bloc/order_bloc.dart';
 import 'bloc/search_bloc/search_bloc.dart';
 
 class AppBlocs extends StatelessWidget {
@@ -62,6 +64,12 @@ class AppBlocs extends StatelessWidget {
             cartRepository: RepositoryProvider.of<CartRepository>(context),
           ),
           lazy: true, // Lazy is fine since it's only needed during checkout
+        ),
+
+         BlocProvider<OrdersBloc>(
+          create: (context) => OrdersBloc(
+            orderRepository: RepositoryProvider.of<OrderRepository>(context),
+          ),
         ),
 
       ],

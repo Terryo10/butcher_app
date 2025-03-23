@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:butcher_app/ui/landing/category_slider.dart';
 import 'package:butcher_app/ui/landing/sub_category_slider.dart';
-import 'package:butcher_app/ui/menu.dart';
+import 'package:butcher_app/ui/profile/order/orders_list_screen.dart';
 import 'package:butcher_app/ui/save/save_page.dart';
 import 'package:butcher_app/ui/side_bar/side_bar.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
   /// All the pages
   final List<Widget> pages = [
     const HomeSub(),
-    const MenuPage(),
+    const OrdersListPage(),
     const CartPage(isHomePage: true),
     const SavePage(),
     const ProfilePage(),
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,  // Prevent going back
+      canPop: false, // Prevent going back
       child: Scaffold(
         body: PageTransitionSwitcher(
           transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            onBottomNavigationTap(2); // Navigate to CartPage
+            onBottomNavigationTap(2);
           },
           backgroundColor: AppColors.primary,
           child: SvgPicture.asset(AppIcons.cart),
@@ -80,8 +80,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
 
 class HomeSub extends StatelessWidget {
   const HomeSub({super.key});
