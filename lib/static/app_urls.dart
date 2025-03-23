@@ -1,3 +1,5 @@
+// Add these to your lib/static/app_urls.dart file
+
 class AppUrls {
   static const String baseUrl = 'http://127.0.0.1:8000';
   // static const String baseUrl = 'http://192.168.11.171:8000';
@@ -71,4 +73,9 @@ class AppUrls {
       orders; // Usage: '$cancelOrder/$orderId/cancel'
   static const String orderTracking =
       orders; // Usage: '$orderTracking/$orderId/tracking'
+
+  // Wishlist Endpoints
+  static const String wishlist = '${apiBase}wishlist';
+  static String wishlistCheck(int productId) => '$wishlist/check/$productId';
+  static String wishlistRemove(int productId) => '$wishlist/$productId';
 }

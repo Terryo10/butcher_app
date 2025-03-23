@@ -1,6 +1,7 @@
 import 'package:butcher_app/repositories/auth_repository/auth_provider.dart';
 import 'package:butcher_app/repositories/cart_repository/cart_repository.dart';
 import 'package:butcher_app/repositories/orders_repository/order_repository.dart';
+import 'package:butcher_app/repositories/wishlist_repository/wishlist_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -51,6 +52,10 @@ class AppRepositories extends StatelessWidget {
         RepositoryProvider<OrderRepository>(
           create: (context) => OrderRepository(secureStorage: storage),
         ),
+
+        RepositoryProvider<WishlistRepository>(
+  create: (context) => WishlistRepository(secureStorage: storage),
+),
       ],
       child: appBlocs,
     );

@@ -146,7 +146,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               onBuyButtonTap: () {
                 // First add to cart, then navigate to checkout
                 _addToCart();
-                context.router.pushNamed('/checkout');
+                context.navigateTo(const CheckoutRoute());
               },
               onCartButtonTap: () {
                 // Add to cart
@@ -169,6 +169,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       AppUrls.getProductImage(
                           img)), // Spread the existing images
                 ],
+                product: widget.product,
               ),
             ),
             SizedBox(

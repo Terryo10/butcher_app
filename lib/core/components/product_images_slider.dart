@@ -1,4 +1,7 @@
+import 'package:butcher_app/models/categories/product.dart';
+import 'package:butcher_app/state/bloc/wishlist_bloc/wishlist_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../constants/app_colors.dart';
@@ -11,9 +14,11 @@ class ProductImagesSlider extends StatefulWidget {
   const ProductImagesSlider({
     super.key,
     required this.images,
+    required this.product,
   });
 
   final List<String> images;
+  final Product product;
 
   @override
   State<ProductImagesSlider> createState() => _ProductImagesSliderState();
@@ -87,18 +92,55 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
             child: Material(
               color: Colors.transparent,
               borderRadius: AppDefaults.borderRadius,
-              child: IconButton(
-                onPressed: () {},
-                iconSize: 56,
-                constraints: const BoxConstraints(minHeight: 56, minWidth: 56),
-                icon: Container(
-                  padding: const EdgeInsets.all(AppDefaults.padding),
-                  decoration: const BoxDecoration(
-                    color: AppColors.scaffoldBackground,
-                    shape: BoxShape.circle,
-                  ),
-                  child: SvgPicture.asset(AppIcons.heart),
-                ),
+              child: BlocBuilder<WishlistBloc, WishlistState>(
+                builder: (context, state) {
+                  // Check product wishlist status if it has an ID
+                  if (widget.product.id != null) {
+                    context.read<WishlistBloc>().add(
+                          CheckWishlistStatus(productId: widget.product.id!),
+                        );
+                  }
+
+                  bool isInWishlist = false;
+                  if (state is WishlistLoaded && widget.product.id != null) {
+                    isInWishlist = state.isInWishlist(widget.product.id!);
+                  }
+
+                  return IconButton(
+                    onPressed: () {
+                      if (widget.product.id == null) return;
+
+                      if (isInWishlist) {
+                        context.read<WishlistBloc>().add(
+                              RemoveFromWishlist(product: widget.product),
+                            );
+                      } else {
+                        context.read<WishlistBloc>().add(
+                              AddToWishlist(product: widget.product),
+                            );
+                      }
+                    },
+                    iconSize: 56,
+                    constraints:
+                        const BoxConstraints(minHeight: 56, minWidth: 56),
+                    icon: Container(
+                      padding: const EdgeInsets.all(AppDefaults.padding),
+                      decoration: const BoxDecoration(
+                        color: AppColors.scaffoldBackground,
+                        shape: BoxShape.circle,
+                      ),
+                      child: isInWishlist
+                          ? SvgPicture.asset(
+                              AppIcons.heart,
+                              colorFilter: const ColorFilter.mode(
+                                Colors.red,
+                                BlendMode.srcIn,
+                              ),
+                            )
+                          : SvgPicture.asset(AppIcons.heart),
+                    ),
+                  );
+                },
               ),
             ),
           )

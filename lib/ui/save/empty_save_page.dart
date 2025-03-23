@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../../constants/app_defaults.dart';
 import '../../core/components/network_image.dart';
+import '../home_page.dart';
 
 
 class EmptySavePage extends StatelessWidget {
@@ -27,21 +27,29 @@ class EmptySavePage extends StatelessWidget {
             ),
           ),
           Text(
-            'Oppss!',
+            'Oops!',
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
                 ?.copyWith(fontWeight: FontWeight.bold, color: Colors.black),
           ),
           const SizedBox(height: 8),
-          const Text('Sorry, you have no product in your wishlist'),
+          const Text('Sorry, you have no products in your wishlist'),
           const Spacer(),
           SizedBox(
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(AppDefaults.padding * 2),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Navigate to home page
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
+                    ),
+                  );
+                },
                 child: const Text('Start Adding'),
               ),
             ),
