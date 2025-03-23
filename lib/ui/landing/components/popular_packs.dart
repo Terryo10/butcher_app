@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../core/components/bundle_tile_square.dart';
 import '../../../core/components/title_and_action_button.dart';
-import '../../../models/categories/product.dart';
 
 class PopularPacks extends StatelessWidget {
   const PopularPacks({
@@ -16,17 +15,64 @@ class PopularPacks extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TitleAndActionButton(
-          title: 'Popular Packs',
-          onTap: () {
-// Navigator.pushNamed(context, AppRoutes.popularItems)
-          },
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+          child: TitleAndActionButton(
+            title: 'Popular Packs',
+            onTap: () {
+              // Navigator.pushNamed(context, AppRoutes.popularItems)
+            },
+          ),
         ),
         BlocListener<CategoriesBloc, CategoriesState>(
           listener: (context, state) {},
           child: BlocBuilder<CategoriesBloc, CategoriesState>(
             builder: (context, state) {
+              if (state is CategoriesLoadingState) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
               if (state is CategoriesLoadedState) {
+                final products = state.selectedSubCategory?.products ?? [];
+
+                if (products.isEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.shopping_basket_outlined,
+                            size: 48,
+                            color: Colors.grey.shade400,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            "No products available",
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "Please select a different category",
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+
                 return SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(
                       horizontal: AppDefaults.padding),
@@ -36,7 +82,7 @@ class PopularPacks extends StatelessWidget {
                       const SizedBox(height: 8),
                       LayoutBuilder(
                         builder: (context, constraints) {
-                          // Ensure GridView gets constraints from LayoutBuilder
+                          // Use the existing BundleTileSquare widget
                           return GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -47,19 +93,16 @@ class PopularPacks extends StatelessWidget {
                               mainAxisSpacing: AppDefaults.padding,
                               childAspectRatio: 0.8, // Adjust for item height
                             ),
-                            itemCount:
-                                state.selectedSubCategory?.products?.length ??
-                                    0,
+                            itemCount: products.length,
                             itemBuilder: (context, index) {
                               return BundleTileSquare(
-                                product: state.selectedSubCategory
-                                        ?.products?[index] ??
-                                    Product(),
+                                product: products[index],
                               );
                             },
                           );
                         },
                       ),
+                      const SizedBox(height: 24),
                     ],
                   ),
                 );

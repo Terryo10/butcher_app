@@ -65,15 +65,32 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         );
       }
     });
+
     on<SelectCategory>((event, emit) async {
       emit(CategoriesLoadingState());
       try {
-        emit(
-          CategoriesLoadedState(
+        // Check if the selected category has subcategories
+        if (event.categoryItem.subcategories?.isNotEmpty ?? false) {
+          // Automatically select the first subcategory when a category is selected
+          add(
+            SelectSubCategory(
+              categoriesLoadedState: event.categoriesLoadedState,
+              categoryItem: event.categoryItem,
+              subcategory:
+                  event.categoryItem.subcategories?.first ?? Subcategory(),
+            ),
+          );
+        } else {
+          // If there are no subcategories, just emit with the selected category
+          emit(
+            CategoriesLoadedState(
               categoriesResponseModel:
                   event.categoriesLoadedState.categoriesResponseModel,
-              selectedCategory: event.categoryItem),
-        );
+              selectedCategory: event.categoryItem,
+              selectedSubCategory: null, // Clear any previous subcategory
+            ),
+          );
+        }
       } catch (e) {
         emit(
           CategoriesErrorState(
@@ -101,6 +118,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         );
       }
     });
+
     on<SelectSubCategoryFromStart>((event, emit) async {
       emit(CategoriesLoadingState());
       try {

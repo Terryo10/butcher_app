@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants/app_defaults.dart';
 import '../../models/categories/category_datum.dart';
-import '../../models/categories/subcategory.dart';
-import '../../themes/styles.dart';
 
 class SubCategorySlider extends StatefulWidget {
   const SubCategorySlider({super.key});
@@ -15,81 +13,118 @@ class SubCategorySlider extends StatefulWidget {
 }
 
 class _SubCategorySliderState extends State<SubCategorySlider> {
-  int activeMenu = 0;
   bool isSearching = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoriesBloc, CategoriesState>(
       builder: (context, state) {
         if (state is CategoriesLoadingState) {
-          //SHIMMER HERE
           return const SliverToBoxAdapter(
             child: SizedBox(),
           );
         } else if (state is CategoriesLoadedState) {
-          return SliverPadding(
-            padding: const EdgeInsets.symmetric(vertical: AppDefaults.padding),
-            sliver: SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                        state.selectedCategory?.subcategories?.length ?? 0,
-                        (index) {
-                      return InkWell(
-                        onTap: () {
-                          setState(() {
-                            activeMenu = index;
-                          });
+          final subcategories = state.selectedCategory?.subcategories ?? [];
 
-                          BlocProvider.of<CategoriesBloc>(context).add(
-                            SelectSubCategory(
-                                categoriesLoadedState: state,
-                                categoryItem:
-                                    state.selectedCategory ?? CategoryDatum(),
-                                subcategory: state.selectedCategory
-                                        ?.subcategories?[index] ??
-                                    Subcategory()),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: activeMenu == index
-                                  ? Colors.black
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 15,
-                                top: 8,
-                                right: 15,
-                                bottom: 8,
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    state.selectedCategory
-                                            ?.subcategories?[index].name ??
-                                        '',
-                                    style: activeMenu == index
-                                        ? appStyleText
-                                        : appStyleTextActive,
-                                  )
-                                ],
-                              ),
-                            ),
+          if (subcategories.isEmpty) {
+            return const SliverToBoxAdapter(child: SizedBox());
+          }
+
+          return SliverPadding(
+            padding:
+                const EdgeInsets.symmetric(vertical: AppDefaults.padding / 2),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24, bottom: 12),
+                    child: Text(
+                      "Subcategories",
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
                           ),
-                        ),
-                      );
-                    }),
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: List.generate(subcategories.length, (index) {
+                          // Check if this subcategory is the selected one in the state
+                          final isSelected = state.selectedSubCategory?.id ==
+                              subcategories[index].id;
+
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  BlocProvider.of<CategoriesBloc>(context).add(
+                                    SelectSubCategory(
+                                      categoriesLoadedState: state,
+                                      categoryItem: state.selectedCategory ??
+                                          CategoryDatum(),
+                                      subcategory: subcategories[index],
+                                    ),
+                                  );
+                                },
+                                borderRadius: BorderRadius.circular(24),
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 250),
+                                  decoration: BoxDecoration(
+                                    color: isSelected
+                                        ? const Color(0xFF4A6572)
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(24),
+                                    border: Border.all(
+                                      color: isSelected
+                                          ? const Color(0xFF4A6572)
+                                          : Colors.grey.shade300,
+                                      width: 1.5,
+                                    ),
+                                    boxShadow: isSelected
+                                        ? [
+                                            BoxShadow(
+                                              color: const Color(0xFF4A6572)
+                                                  .withOpacity(0.2),
+                                              blurRadius: 4,
+                                              offset: const Offset(0, 2),
+                                            )
+                                          ]
+                                        : null,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 18,
+                                    vertical: 12,
+                                  ),
+                                  child: Text(
+                                    subcategories[index].name ?? '',
+                                    style: TextStyle(
+                                      color: isSelected
+                                          ? Colors.white
+                                          : Colors.black87,
+                                      fontWeight: isSelected
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
               ),
             ),
           );
